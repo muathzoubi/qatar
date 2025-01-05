@@ -144,7 +144,7 @@ export default function HealthCardRenewal() {
                                       </Label>
                                       <Input
                                           type="tel"
-                                          placeholder="الرجاء إدخال رقم الهاتف"
+                                          placeholder="الرجاء إدخال عدد السنوات"
                                           className="max-w-md text-sm sm:text-base"
                                       />
                                   </div>

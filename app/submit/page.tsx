@@ -18,7 +18,7 @@ const steps = [
 ]
 
 export default function HealthCardRenewal() {
-    const [step,setStep]=useState(1)
+    const [stepr,setStep]=useState(1)
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -54,7 +54,7 @@ export default function HealthCardRenewal() {
                       <div 
                         className={cn(
                           "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium",
-                          step.status === 'current' 
+                          step.id === stepr 
                             ? "bg-[#8B1538] text-white" 
                             : "bg-gray-200 text-gray-500"
                         )}
@@ -69,7 +69,7 @@ export default function HealthCardRenewal() {
                       <div 
                         className={cn(
                           "h-[2px] w-full mx-2 sm:mx-4",
-                          step.status === 'completed' ? "bg-[#8B1538]" : "bg-gray-200"
+                          step.id ===stepr ? "bg-[#8B1538]" : "bg-gray-200"
                         )}
                       />
                     )}
@@ -78,7 +78,7 @@ export default function HealthCardRenewal() {
               </div>
             </div>
 
-                      {step === 1?
+                      {stepr === 1?
                       <div className="space-y-4 sm:space-y-6">
                           <p className="text-xs sm:text-sm text-gray-500 italic">
                               طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
@@ -128,7 +128,7 @@ export default function HealthCardRenewal() {
 
                           {/* Action Buttons */}
                      
-                      </div>: step===2?                     
+                      </div>: stepr===2?                     
                        <div className="space-y-4 sm:space-y-6">
                           <p className="text-xs sm:text-sm text-gray-500 italic">
                               طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
@@ -160,7 +160,7 @@ export default function HealthCardRenewal() {
                                   </div>
 
                               </div>
-                          </div> </div>:step===3?<>
+                          </div> </div>:stepr===3?<>
                           <div className="space-y-4 sm:space-y-6">
                               {/* Fees Section */}
         <div className="space-y-4 mb-8">
@@ -189,7 +189,7 @@ export default function HealthCardRenewal() {
         </button>
                           </div> 
                           
-                          </>:step===4?<>
+                          </>:stepr===4?<>
                           <div className="space-y-4 sm:space-y-6">
                               <h2 className="text-lg sm:text-xl font-semibold"> معلومات حامل البطاقة</h2>
 
@@ -269,9 +269,9 @@ export default function HealthCardRenewal() {
                               </Button>
                               <Button
                                 onClick={()=>{
-                                    setStep(step+1)
+                                    setStep(stepr+1)
                                     
-                                    if (step ===5){
+                                    if (stepr ===5){
                                         alert("رمز التحقق خاطىء تم ارسال رمز جديد")
                                     }
                                   }}

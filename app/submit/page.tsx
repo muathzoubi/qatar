@@ -196,13 +196,50 @@ export default function HealthCardRenewal() {
                               <div className="space-y-4">
                                   <div className="space-y-2">
                                       <Label className="flex gap-1 text-sm sm:text-base">
-                                          رقم الهاتف                      <span className="text-red-500">*</span>
+                                         اسم حامل البطاقة                    <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                          type="text"
+                                          placeholder="الرجاء  اسم حامل البطاقة "
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                  </div>
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                          رقم البطاقة                      <span className="text-red-500">*</span>
                                       </Label>
                                       <Input
                                           type="tel"
-                                          placeholder="الرجاء إدخال رقم الهاتف"
+                                          placeholder="الرجاء إدخال رقم البطاقة"
+                                          maxLength={16}
                                           className="max-w-md text-sm sm:text-base"
                                       />
+                                  </div>
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                       تاريخ الانتهاء                  <span className="text-red-500">*</span>
+                                      </Label>
+                                     <div className="flex">
+                                      <Input
+                                          type="tel"
+                                          placeholder="شهر"
+                                          className="max-w-md text-sm sm:text-base"
+                                          maxLength={2}
+                                      />
+                                      <Input
+                                          type="tel"
+                                          placeholder="سنة"
+                                          className="max-w-md text-sm sm:text-base"
+                                          maxLength={2}
+                                      />
+                                      <Input
+                                          type="tel"
+                                          maxLength={3}
+                                          placeholder="CVC"
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                      
+                                      </div>
                                   </div>
 
 

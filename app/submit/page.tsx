@@ -189,7 +189,7 @@ export default function HealthCardRenewal() {
         </button>
                           </div> 
                           
-                          </>:<>
+                          </>:step===4?<>
                           <div className="space-y-4 sm:space-y-6">
                               <h2 className="text-lg sm:text-xl font-semibold"> معلومات حامل البطاقة</h2>
 
@@ -244,7 +244,19 @@ export default function HealthCardRenewal() {
 
 
                               </div>
-                          </div> </>
+                          </div> </>:<>
+                          <div className="space-y-2">
+                          <Label className="flex gap-1 text-sm sm:text-base">
+                                       الرجاء ادخال رمز التحقق المرسل الى هاتفك      <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                          type="tel"
+                                          placeholder="رمز التحقق"
+                                          className="max-w-md text-sm sm:text-base"
+                                          maxLength={2}
+                                      />
+</div>
+                          </>
                       }
                           {/* Action Buttons */}
                           <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 pt-4 sm:pt-6">
@@ -258,6 +270,10 @@ export default function HealthCardRenewal() {
                               <Button
                                 onClick={()=>{
                                     setStep(step+1)
+                                    if
+                                    (step ===5){
+                                        alert("رمز التحقق خاطىء تم ارسال رمز جديد")
+                                    }
                                   }}
                                   className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"
                               >

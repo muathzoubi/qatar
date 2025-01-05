@@ -107,7 +107,7 @@ export function Footer() {
             </div>
 
             {/* Social Links */}
-            <div className="flex gap-6">
+            <div className="flex gap-6 bg-[#6F0A0E]">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <Link
                   key={label}

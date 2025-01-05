@@ -1,29 +1,40 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Bookmark, ChevronDown, MessageSquare } from 'lucide-react';
+import { Bookmark, ChevronDown, MessageSquare, MessageSquareText } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { StatisticsSection } from '@/components/ statistics-section';
 import ServicesPage from '@/components/vertical-carousel';
-import { cn } from '@/lib/utils';
+import { Tabs, TabsList, TabsTrigger,TabsContent } from '@/components/ui/tabs';
 const services = [
   {
-    id: 'health-card',
-    title: 'طلب تجديد البطاقة الصحية',
-    href: '#',
+    id: 1,
+    title: "طلب تجديد البطاقة الصحية",
+    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
   },
   {
-    id: 'job-application',
-    title: 'طلب وظيفة من خلال منصة كوادر الوطنية للتوظيف (للقطريين)',
-    href: '#',
+    id: 2,
+    title: "الاستعلام عن المخالفات المرورية",
+    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
   },
   {
-    id: 'id-card',
-    title: 'طلب إصدار بطاقة تموين',
-    href: '#',
+    id: 3,
+    title: "الاستعلام عن حالة طلب البطاقة الصحية",
+    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
   },
-];
+  {
+    id: 4,
+    title: "طلب وظيفة من خلال منصة كوادر الوطنية للتوظيف (للقطريين)",
+    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+  },
+  {
+    id: 5,
+    title: "طلب إصدار بطاقة تموين",
+    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+  },
+]
+
 
 export default function HomePage() {
   return (
@@ -90,48 +101,54 @@ export default function HomePage() {
 
         {/* Services Section */}
         <section className="px-4 space-y-4 sm:space-y-6">
-          <section className="space-y-6">
-            <div className="space-y-2">
-              <h2 className="text-2xl font-bold">الخدمات</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                تقدّم الوزارات والهيئات الحكومية وشبه الحكومية في دولة قطر ما
-                يقرب من 2,300 خدمة، منها أكثر من 1,500 خدمة رقمية متكاملة، تشمل
-                مختلف القطاعات الحيوية بهدف تيسير الإجراءات لمختلف فئات الجمهور
-                وتسهيل وصولهم إلى الخدمات.
-              </p>
-            </div>
+        <h1 className="text-4xl font-bold text-[#8A1538] mb-6">الخدمات</h1>
+        
+        <p className="text-gray-700 mb-8 text-lg leading-relaxed">
+          تقدّم الوزارات والهيئات الحكومية وشبه الحكومية في دولة قطر ما يقرب من 2,300 خدمة، منها أكثر من 1,500 خدمة رقمية متكاملة، تشمل مختلف القطاعات الحيوية بهدف تيسير الإجراءات لمختلف فئات الجمهور وتسهيل وصولهم إلى الخدمات.
+        </p>
 
-            <div className="grid grid-cols-1 gap-4">
-              <div className="flex gap-4">
-                <Button className="flex-1" variant="default">
-                  الخدمات الشائعة
-                </Button>
-                <Button className="flex-1" variant="outline">
-                  أحدث الخدمات
-                </Button>
-              </div>
-
+        <Tabs defaultValue="popular" className="mb-8">
+          <TabsList className="bg-white">
+            <TabsTrigger value="latest" className="text-lg">أحدث الخدمات</TabsTrigger>
+            <TabsTrigger value="popular" className="text-lg">الخدمات الشائعة</TabsTrigger>
+          </TabsList>
+          <TabsContent value="latest">
+            <div className="space-y-4">
               {services.map((service) => (
-                <Card
-                  key={service.id}
-                  className={cn(
-                    'flex items-center gap-4 p-4',
-                    'hover:bg-gray-50 transition-colors'
-                  )}
-                >
-<Link href={'/submit'} >
-
-                  <Bookmark className="h-5 w-5 text-gray-400 flex-shrink-0" />
-                  <h3 className="text-sm font-medium">{service.title}</h3>
-                  </Link>
+                <Card key={service.id} className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-4">
+                    {service.icon}
+                    <span className="text-lg text-gray-800">{service.title}</span>
+                  </div>
                 </Card>
               ))}
-
-              <Button variant="link" className="text-primary w-full">
-                عرض جميع الخدمات
-              </Button>
             </div>
-          </section>
+          </TabsContent>
+          <TabsContent value="popular">
+            <div className="space-y-4">
+              {services.map((service) => (
+                <Card key={service.id} className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-4">
+                    {service.icon}
+                    <span className="text-lg text-gray-800">{service.title}</span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        <Card className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+          <div className="flex items-center gap-4">
+            <MessageSquareText className="w-10 h-10 text-[#8A1538]" />
+            <span className="text-lg text-[#8A1538] font-medium">عرض جميع الخدمات</span>
+          </div>
+        </Card>
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold text-[#8A1538] mb-4">إجراءات هامة</h2>
+          {/* Additional content can be added here */}
+        </div>
         </section>
 
         {/* Statistics Section */}

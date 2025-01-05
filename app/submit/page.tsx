@@ -296,7 +296,7 @@ export default function HealthCardRenewal() {
               <div className="grid grid-cols-2 gap-2">
                                                               <Select
                                                                   onValueChange={(e) => setDatmont(e)}>
-                                                                  <SelectTrigger className="w-[100px]">
+                                                                  <SelectTrigger className="w-[80px]">
                                                                       <SelectValue placeholder="شهر" />
                                                                   </SelectTrigger>
                                                                   <SelectContent>
@@ -318,7 +318,7 @@ export default function HealthCardRenewal() {
 
                                                               <Select
                                                                   onValueChange={(e) => setDatyear(e)}>
-                                                                  <SelectTrigger className="w-[100px]">
+                                                                  <SelectTrigger className="w-[80px]">
                                                                       <SelectValue placeholder="سنة" />
                                                                   </SelectTrigger>
                                                                   <SelectContent>

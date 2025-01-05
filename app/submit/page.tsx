@@ -21,37 +21,37 @@ export default function HealthCardRenewal() {
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="container mx-auto px-4 py-3 sm:py-4">
+          <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto whitespace-nowrap">
             <span>الخدمات الحكومية</span>
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
             <span>الصحة</span>
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
             <span className="text-foreground">خدمة البطاقة الصحية الإلكترونية</span>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4 sm:py-8">
         <Card className="max-w-3xl mx-auto">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {/* Title */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="bg-[#8B1538] text-white p-4 rounded-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="bg-[#8B1538] text-white p-3 sm:p-4 rounded-lg text-sm sm:text-base w-fit">
                 <span>المساعدة</span>
               </div>
-              <h1 className="text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
+              <h1 className="text-xl sm:text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
             </div>
 
             {/* Stepper */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between">
+            <div className="mb-6 sm:mb-8 overflow-x-auto pb-2">
+              <div className="flex items-center justify-between min-w-[600px]">
                 {steps.map((step, index) => (
-                  <div key={step.id} className="flex items-center">
-                    <div className="relative">
+                  <div key={step.id} className="flex items-center flex-1">
+                    <div className="relative flex flex-col items-center">
                       <div 
                         className={cn(
-                          "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium",
+                          "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium",
                           step.status === 'current' 
                             ? "bg-[#8B1538] text-white" 
                             : "bg-gray-200 text-gray-500"
@@ -59,14 +59,14 @@ export default function HealthCardRenewal() {
                       >
                         {step.id}
                       </div>
-                      <div className="mt-2 text-sm text-center whitespace-nowrap">
+                      <div className="mt-2 text-xs sm:text-sm text-center">
                         {step.title}
                       </div>
                     </div>
                     {index < steps.length - 1 && (
                       <div 
                         className={cn(
-                          "h-[2px] w-full mx-4",
+                          "h-[2px] w-full mx-2 sm:mx-4",
                           step.status === 'completed' ? "bg-[#8B1538]" : "bg-gray-200"
                         )}
                       />
@@ -77,40 +77,47 @@ export default function HealthCardRenewal() {
             </div>
 
             {/* Form */}
-            <div className="space-y-6">
-              <p className="text-sm text-gray-500 italic">
+            <div className="space-y-4 sm:space-y-6">
+              <p className="text-xs sm:text-sm text-gray-500 italic">
                 طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
               </p>
 
-              <div className="space-y-6">
-                <h2 className="text-xl font-semibold">معلومات</h2>
+              <div className="space-y-4 sm:space-y-6">
+                <h2 className="text-lg sm:text-xl font-semibold">معلومات</h2>
 
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label className="flex gap-1">
+                    <Label className="flex gap-1 text-sm sm:text-base">
                       الرجاء إدخال رقم البطاقة الشخصية
                       <span className="text-red-500">*</span>
                     </Label>
-                    <Input placeholder="الرجاء إدخال الرقم" className="max-w-md" />
+                    <Input 
+                      placeholder="الرجاء إدخال الرقم" 
+                      className="max-w-md text-sm sm:text-base" 
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="flex gap-1">
+                    <Label className="flex gap-1 text-sm sm:text-base">
                       نوع العملية
                       <span className="text-red-500">*</span>
                     </Label>
                     <RadioGroup defaultValue="renewal" className="space-y-2">
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <RadioGroupItem value="renewal" id="renewal" />
-                        <Label htmlFor="renewal">تجديد</Label>
+                        <Label htmlFor="renewal" className="text-sm sm:text-base">تجديد</Label>
                       </div>
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <RadioGroupItem value="reissue" id="reissue" />
-                        <Label htmlFor="reissue">إعادة الطلب (ePurse المفقود أو التالف)</Label>
+                        <Label htmlFor="reissue" className="text-sm sm:text-base">
+                          إعادة الطلب (ePurse المفقود أو التالف)
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <RadioGroupItem value="check" id="check" />
-                        <Label htmlFor="check">تحقق من تاريخ انتهاء الصلاحية</Label>
+                        <Label htmlFor="check" className="text-sm sm:text-base">
+                          تحقق من تاريخ انتهاء الصلاحية
+                        </Label>
                       </div>
                     </RadioGroup>
                   </div>
@@ -118,11 +125,16 @@ export default function HealthCardRenewal() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-between pt-6">
-                <Button variant="outline" className="min-w-[120px]">
+              <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 pt-4 sm:pt-6">
+                <Button 
+                  variant="outline" 
+                  className="w-full sm:w-auto sm:min-w-[120px]"
+                >
                   تفريغ الحقول
                 </Button>
-                <Button className="min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90">
+                <Button 
+                  className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"
+                >
                   تابع
                 </Button>
               </div>

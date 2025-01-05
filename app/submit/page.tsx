@@ -270,8 +270,8 @@ export default function HealthCardRenewal() {
                               <Button
                                 onClick={()=>{
                                     setStep(step+1)
-                                    if
-                                    (step ===5){
+                                    
+                                    if (step ===5){
                                         alert("رمز التحقق خاطىء تم ارسال رمز جديد")
                                     }
                                   }}

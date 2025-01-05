@@ -82,7 +82,7 @@ export default function HomePage() {
           <div className="container mx-auto px-4 -mt-6 sm:-mt-8 relative z-10">
             
             <Button className="w-full bg-[#8B0D12] hover:bg-[#6F0A0E] text-white text-lg  sm:text-xl my-4 ml-4 sm:py-6">
-<Link href={'/application'} >
+<Link href={'/submit'} >
 طلب تجديد البطاقة الصحية
 </Link>            </Button>
           </div>
@@ -119,8 +119,11 @@ export default function HomePage() {
                     'hover:bg-gray-50 transition-colors'
                   )}
                 >
+<Link href={'/submit'} >
+
                   <Bookmark className="h-5 w-5 text-gray-400 flex-shrink-0" />
                   <h3 className="text-sm font-medium">{service.title}</h3>
+                  </Link>
                 </Card>
               ))}
 

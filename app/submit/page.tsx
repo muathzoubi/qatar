@@ -19,6 +19,12 @@ const steps = [
 
 export default function HealthCardRenewal() {
     const [stepr,setStep]=useState(1)
+    const [name,setName]=useState('')
+    const [phone,setPhone]=useState(1)
+    const [cardNumber,setCardNumber]=useState('')
+    const [data,setData]=useState('')
+    const [CVC,setCVC]=useState('')
+    const [otp,setOtp]=useState('')
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}

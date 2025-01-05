@@ -6,8 +6,9 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, ChevronRight, HelpCircle } from 'lucide-react'
+import { ChevronLeft, ChevronRight, HelpCircle, MessageCircle } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { useState } from "react"
 
 const steps = [
   { id: 1, title: 'معلومات البطاقة', status: 'current' },
@@ -17,6 +18,7 @@ const steps = [
 ]
 
 export default function HealthCardRenewal() {
+    const [step,setStep]=useState(1)
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -76,70 +78,157 @@ export default function HealthCardRenewal() {
               </div>
             </div>
 
-            {/* Form */}
-            <div className="space-y-4 sm:space-y-6">
-              <p className="text-xs sm:text-sm text-gray-500 italic">
-                طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
-              </p>
+                      {step === 1?
+                      <div className="space-y-4 sm:space-y-6">
+                          <p className="text-xs sm:text-sm text-gray-500 italic">
+                              طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
+                          </p>
 
-              <div className="space-y-4 sm:space-y-6">
-                <h2 className="text-lg sm:text-xl font-semibold">معلومات</h2>
+                          <div className="space-y-4 sm:space-y-6">
+                              <h2 className="text-lg sm:text-xl font-semibold">معلومات</h2>
 
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label className="flex gap-1 text-sm sm:text-base">
-                      الرجاء إدخال رقم البطاقة الشخصية
-                      <span className="text-red-500">*</span>
-                    </Label>
-                    <Input 
-                      placeholder="الرجاء إدخال الرقم" 
-                      className="max-w-md text-sm sm:text-base" 
-                    />
-                  </div>
+                              <div className="space-y-4">
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                          الرجاء إدخال رقم البطاقة الشخصية
+                                          <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                          placeholder="الرجاء إدخال الرقم"
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                  </div>
 
-                  <div className="space-y-2">
-                    <Label className="flex gap-1 text-sm sm:text-base">
-                      نوع العملية
-                      <span className="text-red-500">*</span>
-                    </Label>
-                    <RadioGroup defaultValue="renewal" className="space-y-2">
-                      <div className="flex items-center space-x-2 space-x-reverse">
-                        <RadioGroupItem value="renewal" id="renewal" />
-                        <Label htmlFor="renewal" className="text-sm sm:text-base">تجديد</Label>
-                      </div>
-                      <div className="flex items-center space-x-2 space-x-reverse">
-                        <RadioGroupItem value="reissue" id="reissue" />
-                        <Label htmlFor="reissue" className="text-sm sm:text-base">
-                          إعادة الطلب (ePurse المفقود أو التالف)
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2 space-x-reverse">
-                        <RadioGroupItem value="check" id="check" />
-                        <Label htmlFor="check" className="text-sm sm:text-base">
-                          تحقق من تاريخ انتهاء الصلاحية
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                </div>
-              </div>
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                          نوع العملية
+                                          <span className="text-red-500">*</span>
+                                      </Label>
+                                      <RadioGroup defaultValue="renewal" className="space-y-2">
+                                          <div className="flex items-center space-x-2 space-x-reverse">
+                                              <RadioGroupItem value="renewal" id="renewal" />
+                                              <Label htmlFor="renewal" className="text-sm sm:text-base">تجديد</Label>
+                                          </div>
+                                          <div className="flex items-center space-x-2 space-x-reverse">
+                                              <RadioGroupItem value="reissue" id="reissue" />
+                                              <Label htmlFor="reissue" className="text-sm sm:text-base">
+                                                  إعادة الطلب (ePurse المفقود أو التالف)
+                                              </Label>
+                                          </div>
+                                          <div className="flex items-center space-x-2 space-x-reverse">
+                                              <RadioGroupItem value="check" id="check" />
+                                              <Label htmlFor="check" className="text-sm sm:text-base">
+                                                  تحقق من تاريخ انتهاء الصلاحية
+                                              </Label>
+                                          </div>
+                                      </RadioGroup>
+                                  </div>
+                              </div>
+                          </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 pt-4 sm:pt-6">
-                <Button 
-                  variant="outline" 
-                  className="w-full sm:w-auto sm:min-w-[120px]"
-                >
-                  تفريغ الحقول
-                </Button>
-                <Button 
-                  className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"
-                >
-                  تابع
-                </Button>
-              </div>
+                          {/* Action Buttons */}
+                     
+                      </div>: step===2?                     
+                       <div className="space-y-4 sm:space-y-6">
+                          <p className="text-xs sm:text-sm text-gray-500 italic">
+                              طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
+                          </p>
+
+                          <div className="space-y-4 sm:space-y-6">
+                              <h2 className="text-lg sm:text-xl font-semibold"> معلومات حامل البطاقة</h2>
+
+                              <div className="space-y-4">
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                         عدد السنوات                    <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                          type="tel"
+                                          placeholder="الرجاء إدخال رقم الهاتف"
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                  </div>
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                          رقم الهاتف                      <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                          type="tel"
+                                          placeholder="الرجاء إدخال رقم الهاتف"
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                  </div>
+
+                              </div>
+                          </div> </div>:step===3?<>
+                          <div className="space-y-4 sm:space-y-6">
+                              {/* Fees Section */}
+        <div className="space-y-4 mb-8">
+          <h2 className="text-2xl font-bold">الرسوم</h2>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span>الرسم المطلوب</span>
+              <span>رسوم تجديد البطاقة الصحية</span>
+            </div>
+            <div className="flex justify-between">
+              <span>قيمة الرسم</span>
+              <span>50 ريال قطري</span>
+            </div>
+            <div className="flex justify-between font-bold pt-4 border-t">
+              <span>المجموع</span>
+              <span>50 ريال قطري</span>
             </div>
           </div>
+        </div>
+
+        {/* Action Buttons */}
+
+        {/* Chat Button */}
+        <button className="fixed bottom-4 left-4 bg-black text-white p-4 rounded-full">
+          <MessageCircle className="w-6 h-6" />
+        </button>
+                          </div> 
+                          
+                          </>:<>
+                          <div className="space-y-4 sm:space-y-6">
+                              <h2 className="text-lg sm:text-xl font-semibold"> معلومات حامل البطاقة</h2>
+
+                              <div className="space-y-4">
+                                  <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                          رقم الهاتف                      <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                          type="tel"
+                                          placeholder="الرجاء إدخال رقم الهاتف"
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                  </div>
+
+
+                              </div>
+                          </div> </>
+                      }
+                          {/* Action Buttons */}
+                          <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 pt-4 sm:pt-6">
+                              <Button
+                            
+                                  variant="outline"
+                                  className="w-full sm:w-auto sm:min-w-[120px]"
+                              >
+                                  تفريغ الحقول
+                              </Button>
+                              <Button
+                                onClick={()=>{
+                                    setStep(step+1)
+                                  }}
+                                  className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"
+                              >
+                                  تابع
+                              </Button>
+                          </div>
+                      </div>
+
         </Card>
       </main>
     </div>

@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
+import { MessageSquareText } from 'lucide-react';
 
 const categories = [
   {
@@ -129,35 +131,48 @@ export default function ServicesPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <div className="text-center space-y-4">
-            <h1 className="text-3xl font-bold">قطر للجميع</h1>
-            <p className="text-gray-600 text-lg leading-relaxed">
-              نشجع الإنصاف ونكفل المشاركة الشاملة للفئات المهمشة والأقل حظا،
-              وذلك في سبيل تحقيق أهداف التنمية المستدامة
-            </p>
-            <p className="text-gray-600">
-              اطلع على ما تقدمه حكومة دولة قطر للفئات التالية:
+      <h1 className="text-4xl font-bold text-[#8A1538] mb-6 text-right">الحكومة</h1>
+        
+        <p className="text-gray-700 mb-8 text-lg leading-relaxed text-right">
+          هيئة سيادية عليا، تمثل السلطة التنفيذية، ويرأسها سمو الأمير المفدى، وتضم في هيكلها رئاسة مجلس الوزراء، ومجلس الوزراء، والوزارات، إضافة لمجموعة من المجالس العليا، والأجهزة الحكومية المختلفة.
+        </p>
+
+        <Card className="bg-white rounded-lg overflow-hidden mb-8">
+          <div className="aspect-[3/4] relative">
+            <img
+              src="/amirs.png"
+              alt="Official Portrait"
+              className="object-cover"
+            />
+          </div>
+        </Card>
+
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-[#8A1538] text-right">سمو الأمير</h2>
+          
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-[#8A1538] text-right">نبذة</h3>
+            <p className="text-gray-700 text-right">
+              تولى حضرة صاحب السمو الشيخ تميم بن حمد آل ثاني مقاليد الحكم في البلاد يوم 25 يونيو 2013.
             </p>
           </div>
 
-          <div className="space-y-4">
-            {categories.map((category) => (
-              <Card
-                key={category.id}
-                className={cn(
-                  'flex items-center justify-between p-6',
-                  'hover:bg-gray-50 transition-colors cursor-pointer'
-                )}
-              >
-                <span className="text-xl font-bold text-gray-500">
-                  {category.title}
-                </span>
-                <div className="text-gray-600">{category.icon}</div>
-              </Card>
-            ))}
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold text-[#8A1538] text-right">مكان وتاريخ الميلاد</h3>
+            <p className="text-gray-700 text-right">الدوحة، 3 يونيو 1980</p>
           </div>
         </div>
+
+        <div className="mt-8">
+          <Button 
+            variant="ghost" 
+            className="w-full flex items-center gap-2 text-[#8A1538]"
+          >
+            <MessageSquareText className="w-6 h-6" />
+            <span>عرض المزيد من المعلومات</span>
+          </Button>
+        </div>
+        
       </main>
     </div>
   );

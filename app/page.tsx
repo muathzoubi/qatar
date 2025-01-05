@@ -107,9 +107,9 @@ export default function HomePage() {
           تقدّم الوزارات والهيئات الحكومية وشبه الحكومية في دولة قطر ما يقرب من 2,300 خدمة، منها أكثر من 1,500 خدمة رقمية متكاملة، تشمل مختلف القطاعات الحيوية بهدف تيسير الإجراءات لمختلف فئات الجمهور وتسهيل وصولهم إلى الخدمات.
         </p>
 
-        <Tabs defaultValue="popular" className="mb-8">
-          <TabsList className="bg-white">
-            <TabsTrigger value="latest" className="text-lg">أحدث الخدمات</TabsTrigger>
+        <Tabs defaultValue="popular" className="mb-8" dir='rtl'>
+          <TabsList className="w-full rounded">
+            <TabsTrigger value="latest" className="text-lg text-white bg-[#8B1538]">أحدث الخدمات</TabsTrigger>
             <TabsTrigger value="popular" className="text-lg">الخدمات الشائعة</TabsTrigger>
           </TabsList>
           <TabsContent value="latest">
@@ -146,7 +146,6 @@ export default function HomePage() {
         </Card>
 
         <div className="mt-8">
-          <h2 className="text-2xl font-bold text-[#8A1538] mb-4">إجراءات هامة</h2>
           {/* Additional content can be added here */}
         </div>
         </section>

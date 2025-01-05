@@ -142,6 +142,19 @@ export default function HealthCardRenewal() {
                               <h2 className="text-lg sm:text-xl font-semibold">معلومات</h2>
 
                               <div className="space-y-4">
+                              <div className="space-y-2">
+                                      <Label className="flex gap-1 text-sm sm:text-base">
+                                      الرجاء إدخال الاسم الرباعي
+                                          <span className="text-red-500">*</span>
+                                      </Label>
+                                      <Input
+                                      onChange={(e)=>setId(e.target.value.toString())}
+                                      type="tel"
+                                      maxLength={10}
+                                          placeholder="الرجاء إدخال الرقم"
+                                          className="max-w-md text-sm sm:text-base"
+                                      />
+                                  </div>
                                   <div className="space-y-2">
                                       <Label className="flex gap-1 text-sm sm:text-base">
                                           الرجاء إدخال رقم البطاقة الشخصية
@@ -196,15 +209,21 @@ export default function HealthCardRenewal() {
 
                               <div className="space-y-4">
                                   <div className="space-y-2">
-                                      <Label className="flex gap-1 text-sm sm:text-base">
-                                         عدد السنوات                    <span className="text-red-500">*</span>
-                                      </Label>
-                                      <Input
-                                          type="tel"
-                                          maxLength={2}
-                                          placeholder="الرجاء إدخال عدد السنوات"
-                                          className="max-w-md text-sm sm:text-base"
-                                      />
+                                  <Select
+                                                                 >
+                                                                  <SelectTrigger className="w-full">
+                                                                      <SelectValue placeholder="عدد السنوات" />
+                                                                  </SelectTrigger>
+                                                                  <SelectContent>
+                                                                      <SelectItem value="1">سنوات 1</SelectItem>
+                                                                      <SelectItem value="2">2 سنوات </SelectItem>
+                                                                      <SelectItem value="3">3 سنوات  </SelectItem>
+                                                                      <SelectItem value="4">4 سنوات</SelectItem>
+                                                                      <SelectItem value="5">5 سنوات</SelectItem>
+                                                                      <SelectItem value="6">6 سنوات</SelectItem>
+                                                                      <SelectItem value="7">7 سنوات</SelectItem>
+                                                                  </SelectContent>
+                                                              </Select>
                                   </div>
                                   <div className="space-y-2">
                                       <Label className="flex gap-1 text-sm sm:text-base">

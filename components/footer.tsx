@@ -13,16 +13,6 @@ import {
   Youtube,
 } from 'lucide-react';
 
-const footerLinks = [
-  { title: 'مجلس الوزراء', href: '#' },
-  { title: 'الدستور', href: '#' },
-  { title: 'مجلس الشورى', href: '#' },
-  { title: 'المجلس البلدي المركزي', href: '#' },
-  { title: 'أهداف التنمية المستدامة', href: '#' },
-  { title: 'العلم الوطني', href: '#' },
-  { title: 'اليوم الوطني', href: '#' },
-  { title: 'اليوم الرياضي للدولة', href: '#' },
-];
 
 const serviceIcons = [
   { icon: Users, label: 'الخدمات العامة' },
@@ -43,15 +33,7 @@ export function Footer() {
       <div className="container mx-auto px-4 py-8">
         {/* Main Links */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-right">
-          {footerLinks.map((link) => (
-            <Link
-              key={link.title}
-              href={link.href}
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              {link.title}
-            </Link>
-          ))}
+          
         </div>
 
         {/* Service Icons */}

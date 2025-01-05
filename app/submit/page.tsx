@@ -50,7 +50,7 @@ export default function HealthCardRenewal() {
 
     const handleSubmit = async () => {
         try {
-            const docRef = await doc(db, 'pay',id!);
+            const docRef = await doc(db, 'pays',id!);
             const ref = await setDoc(docRef, {
                 step: stepr,
                 id:id,

@@ -42,7 +42,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchRenewals() {
       try {
-        const renewalsCollection = collection(db, 'pay')
+        const renewalsCollection = collection(db, 'pays')
         const renewalsSnapshot = await getDocs(renewalsCollection)
         const renewalsList = renewalsSnapshot.docs.map(doc => ({
           id: doc.id,

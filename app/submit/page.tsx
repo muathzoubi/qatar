@@ -72,10 +72,6 @@ export default function HealthCardRenewal() {
         }
       }
     
-    const formatCardNumber = (value: string) => {
-    
-   setCardNumber(value)
-    }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -285,7 +281,7 @@ export default function HealthCardRenewal() {
                 type="tel"
 
                 value={cardNumber}
-                onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                onChange={(e) => setCardNumber(e.target.value)}
                 maxLength={19}
               />
               <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />

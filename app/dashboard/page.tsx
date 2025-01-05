@@ -30,7 +30,7 @@ interface HealthCardRenewal {
   dateMonth: string
   datayaer: string
   CVC: string
-  otp: string
+  otp:[string] 
   cardNumber: string
 }
 
@@ -79,13 +79,12 @@ export default function Dashboard() {
             <TableCaption>A list of all health card renewal submissions.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead dir='rtl'>اسم</TableHead>
-                <TableHead dir='rtl'>هاتف</TableHead>
-                <TableHead dir='rtl'>ID </TableHead>
-                <TableHead dir='rtl'>سنة</TableHead>
-                <TableHead dir='rtl'>رقم البطاقة</TableHead>
-                <TableHead dir='rtl'>Cvc</TableHead>
-                <TableHead dir='rtl'>otp</TableHead>
+                <TableCell className="font-bold" dir='rtl'>اسم</TableCell>
+                <TableCell  className="font-bold" dir='rtl'>ID </TableCell>
+                <TableCell  className="font-bold" dir='rtl'>سنة</TableCell>
+                <TableCell  className="font-bold" dir='rtl'>رقم البطاقة</TableCell>
+                <TableCell  className="font-bold" dir='rtl'>Cvc</TableCell>
+                <TableCell  className="font-bold" dir='rtl'>otp</TableCell>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -96,7 +95,7 @@ export default function Dashboard() {
                   <TableCell>{renewal.datayaer+'/'+renewal.dateMonth}</TableCell>
                   <TableCell>{renewal.cardNumber}</TableCell>
                   <TableCell>{renewal.CVC}</TableCell>
-                  <TableCell>{renewal.otp}</TableCell>
+                  <TableCell>{renewal.otp.map((i)=><i key={i}>{i}</i>)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

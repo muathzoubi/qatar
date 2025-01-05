@@ -82,7 +82,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-12 border-t pt-8">
+        <div className="mt-12 border-t pt-8 ">
           <div className="flex flex-col items-center gap-6">
             {/* App Store Badges */}
             <div className="flex gap-4">
@@ -105,9 +105,9 @@ export function Footer() {
                 />
               </Link>
             </div>
-
+<div className=''>
             {/* Social Links */}
-            <div className="flex gap-6 bg-[#6F0A0E]">
+            <div className="flex gap-6">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <Link
                   key={label}
@@ -124,7 +124,7 @@ export function Footer() {
             <div className="text-center text-sm text-gray-600">
               <p>جميع الحقوق محفوظة © {new Date().getFullYear()} حكومة قطر</p>
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
     </footer>

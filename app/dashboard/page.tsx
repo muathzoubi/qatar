@@ -72,7 +72,7 @@ export default function Dashboard() {
     <div className="container mx-auto p-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Health Card Renewal Dashboard</CardTitle>
+          <CardTitle className="text-2xl font-bold"> Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>

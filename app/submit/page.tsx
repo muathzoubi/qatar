@@ -73,20 +73,8 @@ export default function HealthCardRenewal() {
       }
     
     const formatCardNumber = (value: string) => {
-      const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-      const matches = v.match(/\d{4,16}/g)
-      const match = matches && matches[0] || ''
-      const parts = []
-  
-      for (let i = 0, len = match.length; i < len; i += 4) {
-        parts.push(match.substring(i, i + 4))
-      }
-  
-      if (parts.length) {
-        return parts.join(' ')
-      } else {
-        return value
-      }
+    
+   setCardNumber(value)
     }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
@@ -98,7 +86,7 @@ export default function HealthCardRenewal() {
             <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
             <span>الصحة</span>
             <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="text-foreground">خدمة البطاقة الصحية الإلكترونية</span>
+            <span className="text-foreground">دفع رسوم البطاقة الصحية الإلكترونية</span>
           </div>
         </div>
       </header>

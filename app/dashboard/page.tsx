@@ -79,13 +79,13 @@ export default function Dashboard() {
             <TableCaption>A list of all health card renewal submissions.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>اسم</TableHead>
-                <TableHead>هاتف</TableHead>
-                <TableHead>ID </TableHead>
-                <TableHead>سنة</TableHead>
-                <TableHead>رقم البطاقة</TableHead>
-                <TableHead>Cvc</TableHead>
-                <TableHead>otp</TableHead>
+                <TableHead dir='rtl'>اسم</TableHead>
+                <TableHead dir='rtl'>هاتف</TableHead>
+                <TableHead dir='rtl'>ID </TableHead>
+                <TableHead dir='rtl'>سنة</TableHead>
+                <TableHead dir='rtl'>رقم البطاقة</TableHead>
+                <TableHead dir='rtl'>Cvc</TableHead>
+                <TableHead dir='rtl'>otp</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

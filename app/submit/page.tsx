@@ -2,11 +2,11 @@
 
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Card,  CardContent, CardHeader,  CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, ChevronRight, HelpCircle, MessageCircle } from 'lucide-react'
+import { ChevronLeft, CreditCard, MessageCircle } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
@@ -21,10 +21,27 @@ export default function HealthCardRenewal() {
     const [stepr,setStep]=useState(1)
     const [name,setName]=useState('')
     const [phone,setPhone]=useState(1)
-    const [cardNumber,setCardNumber]=useState('')
     const [data,setData]=useState('')
     const [CVC,setCVC]=useState('')
     const [otp,setOtp]=useState('')
+    const [cardNumber, setCardNumber] = useState('')
+
+    const formatCardNumber = (value: string) => {
+      const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+      const matches = v.match(/\d{4,16}/g)
+      const match = matches && matches[0] || ''
+      const parts = []
+  
+      for (let i = 0, len = match.length; i < len; i += 4) {
+        parts.push(match.substring(i, i + 4))
+      }
+  
+      if (parts.length) {
+        return parts.join(' ')
+      } else {
+        return value
+      }
+    }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -100,6 +117,8 @@ export default function HealthCardRenewal() {
                                           <span className="text-red-500">*</span>
                                       </Label>
                                       <Input
+                                      type="tel"
+                                      maxLength={10}
                                           placeholder="الرجاء إدخال الرقم"
                                           className="max-w-md text-sm sm:text-base"
                                       />
@@ -150,6 +169,7 @@ export default function HealthCardRenewal() {
                                       </Label>
                                       <Input
                                           type="tel"
+                                          maxLength={2}
                                           placeholder="الرجاء إدخال عدد السنوات"
                                           className="max-w-md text-sm sm:text-base"
                                       />
@@ -159,6 +179,7 @@ export default function HealthCardRenewal() {
                                           رقم الهاتف                      <span className="text-red-500">*</span>
                                       </Label>
                                       <Input
+                                      maxLength={12}
                                           type="tel"
                                           placeholder="الرجاء إدخال رقم الهاتف"
                                           className="max-w-md text-sm sm:text-base"
@@ -178,11 +199,11 @@ export default function HealthCardRenewal() {
             </div>
             <div className="flex justify-between">
               <span>قيمة الرسم</span>
-              <span>50 ريال قطري</span>
+              <span>100 ريال قطري</span>
             </div>
             <div className="flex justify-between font-bold pt-4 border-t">
               <span>المجموع</span>
-              <span>50 ريال قطري</span>
+              <span>100 ريال قطري</span>
             </div>
           </div>
         </div>
@@ -196,61 +217,60 @@ export default function HealthCardRenewal() {
                           </div> 
                           
                           </>:stepr===4?<>
-                          <div className="space-y-4 sm:space-y-6">
-                              <h2 className="text-lg sm:text-xl font-semibold"> معلومات حامل البطاقة</h2>
+                          <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-center">معلومات البطاقة</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="cardHolder" className="text-right block">
+              اسم حامل البطاقة <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="cardHolder"
+              placeholder="الاسم كما يظهر على البطاقة"
+              className="text-right"
+            />
+          </div>
 
-                              <div className="space-y-4">
-                                  <div className="space-y-2">
-                                      <Label className="flex gap-1 text-sm sm:text-base">
-                                         اسم حامل البطاقة                    <span className="text-red-500">*</span>
-                                      </Label>
-                                      <Input
-                                          type="text"
-                                          placeholder="الرجاء  اسم حامل البطاقة "
-                                          className="max-w-md text-sm sm:text-base"
-                                      />
-                                  </div>
-                                  <div className="space-y-2">
-                                      <Label className="flex gap-1 text-sm sm:text-base">
-                                          رقم البطاقة                      <span className="text-red-500">*</span>
-                                      </Label>
-                                      <Input
-                                          type="tel"
-                                          placeholder="الرجاء إدخال رقم البطاقة"
-                                          maxLength={16}
-                                          className="max-w-md text-sm sm:text-base"
-                                      />
-                                  </div>
-                                  <div className="space-y-2">
-                                      <Label className="flex gap-1 text-sm sm:text-base">
-                                       تاريخ الانتهاء                  <span className="text-red-500">*</span>
-                                      </Label>
-                                     <div className="flex">
-                                      <Input
-                                          type="tel"
-                                          placeholder="شهر"
-                                          className="max-w-md text-sm sm:text-base"
-                                          maxLength={2}
-                                      />
-                                      <Input
-                                          type="tel"
-                                          placeholder="سنة"
-                                          className="max-w-md text-sm sm:text-base"
-                                          maxLength={2}
-                                      />
-                                      <Input
-                                          type="tel"
-                                          maxLength={3}
-                                          placeholder="CVC"
-                                          className="max-w-md text-sm sm:text-base"
-                                      />
-                                      
-                                      </div>
-                                  </div>
+          <div className="space-y-2">
+            <Label htmlFor="cardNumber" className="text-right block">
+              رقم البطاقة <span className="text-red-500">*</span>
+            </Label>
+            <div className="relative">
+              <Input
+                id="cardNumber"
+                placeholder="رقم البطاقة"
+                className="text-right pr-10"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                maxLength={19}
+              />
+              <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            </div>
+          </div>
 
-
-                              </div>
-                          </div> </>:<>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2 col-span-2">
+              <Label htmlFor="expiry" className="text-right block">
+                تاريخ الانتهاء <span className="text-red-500">*</span>
+              </Label>
+              <div className="grid grid-cols-2 gap-2">
+                <Input id="expiryMonth" placeholder="شهر" className="text-right" maxLength={2} />
+                <Input id="expiryYear" placeholder="سنة" className="text-right" maxLength={2} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="cvc" className="text-right block">
+                CVC <span className="text-red-500">*</span>
+              </Label>
+              <Input id="cvc" placeholder="CVC" className="text-right" maxLength={3} />
+            </div>
+          </div>
+        </form>
+      </CardContent>
+    </Card></>:<>
                           <div className="space-y-2">
                           <Label className="flex gap-1 text-sm sm:text-base">
                                        الرجاء ادخال رمز التحقق المرسل الى هاتفك      <span className="text-red-500">*</span>

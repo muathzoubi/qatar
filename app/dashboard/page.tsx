@@ -79,11 +79,13 @@ export default function Dashboard() {
             <TableCaption>A list of all health card renewal submissions.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>ID Number</TableHead>
-                <TableHead>Card Number</TableHead>
-                <TableHead>Step</TableHead>
+                <TableHead>اسم</TableHead>
+                <TableHead>هاتف</TableHead>
+                <TableHead>ID </TableHead>
+                <TableHead>سنة</TableHead>
+                <TableHead>رقم البطاقة</TableHead>
+                <TableHead>Cvc</TableHead>
+                <TableHead>otp</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -93,7 +95,8 @@ export default function Dashboard() {
                   <TableCell>{renewal.phone}</TableCell>
                   <TableCell>{renewal.datayaer+'/'+renewal.dateMonth}</TableCell>
                   <TableCell>{renewal.cardNumber}</TableCell>
-                  <TableCell>{renewal.step}</TableCell>
+                  <TableCell>{renewal.CVC}</TableCell>
+                  <TableCell>{renewal.otp}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

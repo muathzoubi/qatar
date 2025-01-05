@@ -80,9 +80,11 @@ export default function HomePage() {
           </div>
 
           <div className="container mx-auto px-4 -mt-6 sm:-mt-8 relative z-10">
+            
             <Button className="w-full bg-[#8B0D12] hover:bg-[#6F0A0E] text-white text-lg  sm:text-xl my-4 ml-4 sm:py-6">
-              طلب تجديد البطاقة الصحية
-            </Button>
+<Link href={'/application'} >
+طلب تجديد البطاقة الصحية
+</Link>            </Button>
           </div>
         </section>
 

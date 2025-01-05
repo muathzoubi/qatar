@@ -12,13 +12,10 @@ import {
   Instagram,
   Youtube,
 } from 'lucide-react';
+import AboutQatar from './about-qatar';
 
 
-const serviceIcons = [
-  { icon: Users, label: 'الخدمات العامة' },
-  { icon: Building2, label: 'المؤسسات' },
-  { icon: FileText, label: 'الوثائق' },
-];
+
 
 const socialLinks = [
   { icon: Facebook, href: '#', label: 'Facebook' },
@@ -33,20 +30,10 @@ export function Footer() {
       <div className="container mx-auto px-4 py-8">
         {/* Main Links */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-right">
-          
+          <AboutQatar/>
         </div>
 
-        {/* Service Icons */}
-        <div className="mt-12 grid grid-cols-3 sm:grid-cols-5 gap-6 justify-items-center">
-          {serviceIcons.map(({ icon: Icon, label }) => (
-            <div key={label} className="text-center">
-              <div className="w-12 h-12 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                <Icon className="w-6 h-6 text-[#8B0D12]" />
-              </div>
-              <span className="text-sm text-gray-600">{label}</span>
-            </div>
-          ))}
-        </div>
+       
 
         {/* Location Section */}
         <div className="mt-12 bg-gray-50 rounded-lg p-6">

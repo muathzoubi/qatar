@@ -4,6 +4,12 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'حكومي - البوابة الحكومية لدولة قطر',
   description: 'البوابة الرسمية لحكومة دولة قطر',
+    viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({

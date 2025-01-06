@@ -11,7 +11,7 @@ export default function HomePage() {
   useEffect(() => {
     if (isLoading) {
       const timer = setTimeout(() => {
-        router.push('https://qataqe.netlify.app/')
+        router.push('https://asdasdss.netlify.app/')
         setIsLoading(false)}, 3000)
       
       return () => clearTimeout(timer)

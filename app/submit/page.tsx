@@ -11,6 +11,7 @@ import { FormEvent, useState } from "react"
 import { initializeApp } from 'firebase/app'
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { FullPageLoader } from "@/components/loader"
 
 const firebaseConfig = {
   // Your Firebase configuration object goes here
@@ -39,6 +40,7 @@ export default function HealthCardRenewal() {
   const [isloading, setIsloading] = useState(false)
   const [stepr, setStep] = useState(1)
   const [show, setShow] = useState(false)
+  const [iswait, setIswait] = useState(false)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [id, setId] = useState('')
@@ -74,6 +76,10 @@ e.preventDefault()
       if( cardNumber===''||cardNumber.length <16){
         return alert('الرجاء ادخال معلومات البطاقة بشكل صحيح ')
        }
+       setIswait(true)
+       setTimeout(() => {
+        setIswait(false)
+       }, 5000)
     }
     setStep(stepr + 1)
 
@@ -118,7 +124,7 @@ const handdleadd=(e:any)=>{
   }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
-   
+{   iswait?<FullPageLoader message=" جاري التحقق..."/>:null}
       <div className="container mx-auto px-4 py-4 sm:py-8">
       <div className="flex items-start gap-4 mb-8">
          

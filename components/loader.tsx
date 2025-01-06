@@ -1,27 +1,16 @@
+import { Loader2 } from 'lucide-react'
 
-'use client'
-import { useEffect, useState } from 'react'
+interface FullPageLoaderProps {
+  message?: string
+}
 
-
-
-export function FullPageLoader() {
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-      if (isLoading) {
-        const timer = setTimeout(() => setIsLoading(false), 3000)
-        
-        return () => clearTimeout(timer)
-      }
-    }, [isLoading])
+export function FullPageLoader({ message = " جاري التحقق..." }: FullPageLoaderProps) {
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isLoading?'':'hidden'}`}>
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
       <div className="text-center">
-        <img src='/loader-new-gif.gif' className="fixed h-16 text-primary mx-auto" />
-        <img src='/loader-new-icon.png' className="absloute h-16" />
+        <Loader2 className="h-16 w-16 animate-spin text-primary mx-auto" />
+        <p className="mt-4 text-lg font-semibold text-foreground">{message}</p>
       </div>
-        </div>
     </div>
   )
 }

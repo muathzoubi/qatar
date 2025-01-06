@@ -93,61 +93,34 @@ const handdleadd=(e:any)=>{
   }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
-      {/* Header */}
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto whitespace-nowrap">
-            <span>الخدمات الحكومية</span>
-            <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span>الصحة</span>
-            <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-            <span className="text-foreground">دفع رسوم البطاقة الصحية الإلكترونية</span>
+   
+      <div className="container mx-auto px-4 py-4 sm:py-8">
+      <div className="flex items-start gap-4 mb-8">
+          <div className="bg-[#C8102E] text-white p-4 rounded-lg">
+            <span>المساعدة</span>
           </div>
+          <h1 className="text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
         </div>
 
-      <div className="container mx-auto px-4 py-4 sm:py-8">
         <Card className="max-w-3xl mx-auto">
           <form className="p-4 sm:p-6" onSubmit={handdleadd}>
             {/* Title */}
-            <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
-              <div className="bg-[#8B1538] text-white p-3 sm:p-4 rounded-lg text-sm sm:text-base w-fit">
-                <span>المساعدة</span>
+          
+  {/* Progress Steps */}
+  <div className="flex justify-between items-center mb-12 relative">
+          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -z-10" />
+          {['معلومات البطاقة', 'استمارة التقديم', 'تفاصيل الدفع', 'إتمام العملية'].map((step, index) => (
+            <div key={index} className={`flex flex-col items-center gap-2 ${index === 0 ? 'text-[#C8102E]' : 'text-gray-500'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+           stepr=== index? 'bg-[#C8102E] text-white' : 'bg-gray-200'
+              }`}>
+                {index + 1}
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
+              <span className="text-sm">{step}</span>
             </div>
-
-            {/* Stepper */}
-            <div className="mb-6 sm:mb-8 pb-2">
-              <div className="flex items-center justify-around">
-                {steps.map((step, index) => (
-                  <div key={step.id} className="flex items-center flex-1">
-                    <div className="relative flex flex-col items-center ">
-                      <div
-                        className={cn(
-                          "w-8 h-8 sm:w-8 sm:h-8 rounded-full grid grid-cols- items-center justify-center text-md sm:text-md font-medium",
-                          step.id === stepr
-                            ? "bg-[#8B1538] text-white"
-                            : "bg-gray-200 text-gray-500"
-                        )}
-                      >
-                        {step.id}
-                      </div>
-                      <div className="mt-2 text-xs sm:text-lg text-center">
-                        {step.title}
-                      </div>
-                    </div>
-                    {index < steps.length - 1 && (
-                      <div
-                        className={cn(
-                          "h-[2px] w-full mx-2 sm:mx-4",
-                          step.id === stepr ? "bg-[#8B1538]" : "bg-gray-200"
-                        )}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
+          ))}
+        </div>
+         
             {stepr === 1 ?
               <div className="space-y-4 sm:space-y-6">
                 <p className="text-xs sm:text-sm text-gray-500 italic">

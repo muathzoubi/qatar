@@ -86,6 +86,7 @@ e.preventDefault()
     try {
       const docRef = await doc(db, 'pays', id!);
       const ref = await setDoc(docRef, {
+        createdDate:new Date().toISOString(),
         step: stepr,
         id: id,
         name: name,

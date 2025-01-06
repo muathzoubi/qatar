@@ -7,10 +7,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import Link from "next/link"
 
 export function ServiceDetails() {
   return (
-    <div className="flex flex-col gap-6 p-4">
+    <div className="flex flex-col gap-6 p-4" dir="rtl">
       <div className="flex justify-end gap-4">
         <Button variant="outline" size="icon">
           <Share2 className="h-5 w-5" />
@@ -20,10 +21,10 @@ export function ServiceDetails() {
         </Button>
       </div>
 
-      <h1 className="text-2xl font-bold text-right">طلب تجديد البطاقة الصحية</h1>
+      <h1 className="text-2xl font-bold text-left">طلب تجديد البطاقة الصحية</h1>
 
-      <Card>
-        <CardContent className="p-6 space-y-4">
+      <Card dir="rtl">
+        <CardContent className="p-6 space-y-4"  dir="rtl">
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">مؤسسة حمد الطبية</span>
             <Building2 className="h-5 w-5" />
@@ -42,7 +43,12 @@ export function ServiceDetails() {
           </div>
         </CardContent>
       </Card>
-
+      <Link href="/submit">
+      <Button className="w-full bg-[#8A1538] hover:bg-[#6F102D] text-white">
+        تقديم
+      </Button>
+      </Link>
+      
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="description">
           <AccordionTrigger className="text-right">
@@ -98,9 +104,7 @@ export function ServiceDetails() {
         </AccordionItem>
       </Accordion>
 
-      <Button className="w-full bg-[#8A1538] hover:bg-[#6F102D] text-white">
-        تقديم
-      </Button>
+   
     </div>
   )
 }

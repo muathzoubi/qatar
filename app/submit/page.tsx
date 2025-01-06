@@ -57,8 +57,8 @@ export default function HealthCardRenewal() {
   const handleSubmit = async (e:FormEvent) => {
 e.preventDefault()
     if(stepr===1){
-      if( id===''){
-        return alert('الرجاء ادخال رقم البطاقة الشخصية')
+      if( id===''||name==''){
+        return alert('الرجاء ادخال الاسم ورقم البطاقة الشخصية')
         
        }
     }else if(stepr===2){
@@ -71,8 +71,8 @@ e.preventDefault()
     }
      }
     if(stepr===4){
-      if( cardNumber===''){
-        return alert('الرجاء ادخال معلومات البطاقة ')
+      if( cardNumber===''||cardNumber.length <16){
+        return alert('الرجاء ادخال معلومات البطاقة بشكل صحيح ')
        }
     }
     setStep(stepr + 1)
@@ -161,7 +161,18 @@ const handdleadd=(e:any)=>{
 
                   <div className="space-y-4">
                     <div className="space-y-2">
-                    
+                      <Label className="flex gap-1 text-sm sm:text-base">
+                        الرجاء إدخال الاسم الرباعي
+                        <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                      dir="rtl"
+                        onChange={(e) => setName(e.target.value.toString())}
+                        type="text"                          placeholder="الاسم الرباعيٍ"
+
+                        maxLength={11}
+                        className="max-w-md text-sm sm:text-base"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label className="flex gap-1 text-sm sm:text-base">

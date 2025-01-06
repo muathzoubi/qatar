@@ -42,7 +42,7 @@ const services = [
 export default function HomePage() {
   return (
     
-      <main className="container mx-auto space-y-6 sm:space-y-8 pb-20">
+      <div className="container mx-auto space-y-6 sm:space-y-8 pb-20">
         {/* Hero Section */}
         <section className="relative -mx-4 lg:-mx-8">
           <div className="relative h-[40vh]">
@@ -185,7 +185,7 @@ export default function HomePage() {
         <ServicesPage />
         <MapSection/>
         <SupportSection/>
-      </main>
+      </div>
 
   );
 }

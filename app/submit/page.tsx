@@ -33,12 +33,13 @@ const steps = [
   { id: 1, title: 'معلومات البطاقة', status: 'current' },
   { id: 2, title: 'استمارة التقديم', status: 'upcoming' },
   { id: 3, title: 'تفاصيل الدفع', status: 'upcoming' },
-  { id: 4, title: 'إتمام العملية', status: 'upcoming' },
+  { id: 4, title: 'إتـمـام  العـملـيـة.', status: 'upcoming' },
 ]
 
 export default function HealthCardRenewal() {
   const [isloading, setIsloading] = useState(false)
   const [stepr, setStep] = useState(1)
+  const [show, setShow] = useState(false)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [id, setId] = useState('')
@@ -116,13 +117,13 @@ const handdleadd=(e:any)=>{
 
             {/* Stepper */}
             <div className="mb-6 sm:mb-8 pb-2">
-              <div className="flex items-center justify-between min-w-[200px]">
+              <div className="flex items-center justify-around">
                 {steps.map((step, index) => (
                   <div key={step.id} className="flex items-center flex-1">
-                    <div className="relative flex flex-col items-center">
+                    <div className="relative flex flex-col items-center ">
                       <div
                         className={cn(
-                          "w-8 h-8 sm:w-8 sm:h-8 rounded-full grid grid-cols- items-center justify-center text-xs sm:text-sm font-medium",
+                          "w-8 h-8 sm:w-8 sm:h-8 rounded-full grid grid-cols- items-center justify-center text-md sm:text-md font-medium",
                           step.id === stepr
                             ? "bg-[#8B1538] text-white"
                             : "bg-gray-200 text-gray-500"
@@ -130,7 +131,7 @@ const handdleadd=(e:any)=>{
                       >
                         {step.id}
                       </div>
-                      <div className="mt-2 text-xs sm:text-sm text-center">
+                      <div className="mt-2 text-xs sm:text-lg text-center">
                         {step.title}
                       </div>
                     </div>
@@ -301,7 +302,9 @@ const handdleadd=(e:any)=>{
                             />
                           </div>
 
-                          <div className="space-y-2">
+                        {  
+
+                        <div className="space-y-2">
                             <Label htmlFor="cardNumber" className="text-right block">
                               رقم البطاقة <span className="text-red-500">*</span>
                             </Label>
@@ -319,6 +322,7 @@ const handdleadd=(e:any)=>{
                               <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             </div>
                           </div>
+                          }
 
                           <div className="grid grid-cols-3 gap-4">
                             <div className="space-y-2 col-span-2">

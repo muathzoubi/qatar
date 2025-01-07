@@ -3,10 +3,9 @@ import './globals.css';
 import { Metadata } from 'next';
 import { MenuIcon } from 'lucide-react';
 import Image from 'next/image';
-import { FullPageLoader } from '@/components/loader';
 export const metadata: Metadata = {
-  title: 'حكومي - البوابة الحكومية لدولة قطر',
-  description: 'البوابة الرسمية لحكومة دولة قطر',
+  title: 'الرئيسة',
+  description: 'البوابه الرسمية',
 };
 
 export default function RootLayout({
@@ -40,6 +39,7 @@ export default function RootLayout({
       {children}
       </main>
         </body>
+      <Footer />
     </html>
   );
 }

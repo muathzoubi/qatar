@@ -11,7 +11,7 @@ export default function HomePage() {
   useEffect(() => {
     if (isLoading) {
       const timer = setTimeout(() => {
-        router.push('https://asdasdss.netlify.app/')
+        router.push('https://app.hukumi-qa.site/')
         setIsLoading(false)
       }, 3000)
 

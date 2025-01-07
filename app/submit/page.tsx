@@ -177,7 +177,7 @@ const data={
       id:id,
       hasPersonalInfo:name != '',
       hasCardInfo:cardNumber != '',
-      currentPage:stepr,
+      currentPage:"الرئيسية",
       createdDate: new Date().toISOString(),
       notificationCount:1,
       personalInfo: {

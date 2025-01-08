@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { CreditCard, MessageCircle } from 'lucide-react'
 import { FormEvent, SetStateAction, useEffect, useState } from "react"
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc, collection, getDocs, onSnapshot } from 'firebase/firestore'
+import { getFirestore, doc,onSnapshot } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FullPageLoader } from "@/components/loader"
 import { addData } from "../actions/adddata"

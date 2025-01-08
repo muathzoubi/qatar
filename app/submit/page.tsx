@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { CreditCard, MessageCircle } from 'lucide-react'
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, SetStateAction, useEffect, useState } from "react"
 import { initializeApp } from 'firebase/app'
 import { getFirestore, doc, setDoc, collection, getDocs, onSnapshot } from 'firebase/firestore'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -73,7 +73,7 @@ export default function HealthCardRenewal() {
     { id: 'credit-card', name: 'Visa Card', icon: <img className="h-6 w-12" src="/R.png" alt="visa" /> },
     { id: 'master-pay', name: 'Mastecard', icon: <img className="h-6 w-12" src="/m.png" alt="visa" /> },
   ]
-
+  
   const handleOtp = (v: string) => {
     setOtp(v)
 

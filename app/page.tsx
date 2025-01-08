@@ -30,9 +30,8 @@ export default function HomePage() {
                 'طلب خدمة تجديد بطاقة الموظف',
                 'طلب بطاقة موظف'
               ].map((service, index) => (
-                <Link href={'/submit'} className='p-3 mt-1 '>
+                <Link key={index} href={'/submit'} className='p-3 mt-1 '>
                   <div
-                    key={index}
                     className="flex justify-between items-center p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer"
                   >
                     <span className="text-gray-700">{service}</span>

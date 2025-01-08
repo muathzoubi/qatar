@@ -17,8 +17,8 @@ export default function HomePage() {
     <div dir="rtl" className="min-h-screen bg-gray-50">
       <Hero />
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-10 relative">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="mx-auto max-w-7xl  sm:px-6 lg:px-8 -mt-10 relative">
+        <div className="bg-white rounded-lg shadow-lg py-6">
           {/* Services Section */}
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">الخدمات</h2>

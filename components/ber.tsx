@@ -24,7 +24,7 @@ export default function NewsFeed() {
   ]
 
   return (
-    <div dir="rtl" className="max-w-2xl mx-auto p-4 space-y-4">
+    <div dir="rtl" className="max-w-2xl mx-auto p-4 space-y-4 bg-[#891538] rounded-lg mt-2">
       {newsItems.map((item) => (
         <Card key={item.id} className="overflow-hidden">
           <CardContent className="p-0">
